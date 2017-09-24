@@ -1,5 +1,5 @@
 package GameState;
 
-public enum Colour {
+public enum ParticleColour {
     WHITE, BLACK
 }
