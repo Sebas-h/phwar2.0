@@ -13,22 +13,35 @@ public class Particle {
         this.gp = gp;
     }
 
-    public ArrayList<Particle> getChildren(){
-        ArrayList<Particle> children = new ArrayList<>();
+    public GridPosition[] getPossibleMoves() {
 
-        for (int i = 0; i < 6; i++) {
+        this.gp.x += 0;
+        this.gp.y -= 1;
+        this.gp.z += 1;
 
-            while (true) {
-                int k = 1;
-
-                this.gp.x += k;
-                this.gp.y -= k;
-
-                break;
-            }
-
-        }
-
-        return children;
+        GridPosition gpgp = new GridPosition(1,2,3);
+        GridPosition returnlist[] = {gpgp};
+        return returnlist;
     }
+
+
+//    public ArrayList<Particle> getChildren(){
+//        ArrayList<Particle> children = new ArrayList<>();
+//
+//        for (int i = 0; i < 6; i++) {
+//
+//            while (true) {
+//                int k = 1;
+//
+//                this.gp.x += k;
+//                this.gp.y -= k;
+//
+//                break;
+//            }
+//
+//        }
+//
+//        return children;
+//    }
+
 }
