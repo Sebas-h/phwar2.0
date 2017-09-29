@@ -12,6 +12,10 @@ public class State {
 
     public ParticleColour proponentColour;
 
+    public Integer score;
+
+    public ArrayList<GridPosition> priorActionSequence = new ArrayList<>();
+
     public ArrayList<Particle> blackParticles = new ArrayList<>();
 
     public ArrayList<Particle> whiteParticles = new ArrayList<>();
@@ -20,6 +24,8 @@ public class State {
         this.parent = null;
         this.terminalState = false;
         this.proponentColour = proponentColour;
+        this.priorActionSequence = null;
+        this.score = null;
 
         this.blackParticles.add(new Particle(ParticleType.NEUTRON, ParticleColour.BLACK, new GridPosition(0,5,-5)));
 
@@ -61,9 +67,8 @@ public class State {
     }
 
     public ArrayList<State> getChildrenBlackParticles(){
-        // probs need to deep copy State right?
+        // Probably need to deep copy State right?
         ArrayList<State> children = new ArrayList<>();
-
 
         for (Particle p : this.blackParticles) {
             for (GridPosition newGp : p.getPossibleMoves()){
@@ -71,7 +76,6 @@ public class State {
                 // copy this.state to child
                 // change gp to newGp
                 // add child
-
             }
         }
 

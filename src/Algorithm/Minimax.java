@@ -30,6 +30,9 @@ public class Minimax {
         State s = new State();
         s.createStartState(ParticleColour.BLACK);
 
+        for(State child: s.getChildrenProponent()){
+            //child.
+        }
 
     }
 }

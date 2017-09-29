@@ -1,5 +1,11 @@
 package GameState;
 
 public enum ParticleType {
-    ELECTRON, PROTON, NEUTRON
+    ELECTRON(-1), PROTON(1), NEUTRON(0);
+
+    private int value;
+
+    private ParticleType(int value){
+        this.value = value;
+    }
 }

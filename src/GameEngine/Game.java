@@ -1,8 +1,17 @@
+package GameEngine;
+
 import GameState.*;
 
 import java.util.Scanner;
 
-public class Main {
+public class Game {
+
+    // create start state
+
+    // play game
+
+    //
+
 
     public static void main (String args[]){
 
