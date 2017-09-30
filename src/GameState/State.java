@@ -26,30 +26,6 @@ public class State {
         this.proponentColour = proponentColour;
         this.priorActionSequence = null;
         this.score = null;
-
-        this.blackParticles.add(new Particle(ParticleType.NEUTRON, ParticleColour.BLACK, new GridPosition(0,5,-5)));
-
-        this.blackParticles.add(new Particle(ParticleType.ELECTRON, ParticleColour.BLACK, new GridPosition(-2,5,-3)));
-        this.blackParticles.add(new Particle(ParticleType.ELECTRON, ParticleColour.BLACK, new GridPosition(0,4,-4)));
-        this.blackParticles.add(new Particle(ParticleType.ELECTRON, ParticleColour.BLACK, new GridPosition(0,3,-3)));
-        this.blackParticles.add(new Particle(ParticleType.ELECTRON, ParticleColour.BLACK, new GridPosition(2,3,-5)));
-
-        this.blackParticles.add(new Particle(ParticleType.PROTON, ParticleColour.BLACK, new GridPosition(-1,5,-4)));
-        this.blackParticles.add(new Particle(ParticleType.PROTON, ParticleColour.BLACK, new GridPosition(-1,4,-3)));
-        this.blackParticles.add(new Particle(ParticleType.PROTON, ParticleColour.BLACK, new GridPosition(1,4,-5)));
-        this.blackParticles.add(new Particle(ParticleType.PROTON, ParticleColour.BLACK, new GridPosition(1,3,-4)));
-
-        this.whiteParticles.add(new Particle(ParticleType.NEUTRON, ParticleColour.WHITE, new GridPosition(0,-5,5)));
-
-        this.whiteParticles.add(new Particle(ParticleType.ELECTRON, ParticleColour.WHITE, new GridPosition(-2,-3,5)));
-        this.whiteParticles.add(new Particle(ParticleType.ELECTRON, ParticleColour.WHITE, new GridPosition(0,-4,4)));
-        this.whiteParticles.add(new Particle(ParticleType.ELECTRON, ParticleColour.WHITE, new GridPosition(0,-3,3)));
-        this.whiteParticles.add(new Particle(ParticleType.ELECTRON, ParticleColour.WHITE, new GridPosition(2,-5,3)));
-
-        this.whiteParticles.add(new Particle(ParticleType.PROTON, ParticleColour.WHITE, new GridPosition(-1,-4,5)));
-        this.whiteParticles.add(new Particle(ParticleType.PROTON, ParticleColour.WHITE, new GridPosition(-1,-3,4)));
-        this.whiteParticles.add(new Particle(ParticleType.PROTON, ParticleColour.WHITE, new GridPosition(1,-5,4)));
-        this.whiteParticles.add(new Particle(ParticleType.PROTON, ParticleColour.WHITE, new GridPosition(1,-4,3)));
     }
 
     public ArrayList<State> getChildrenProponent() {
