@@ -1,14 +1,14 @@
 package game;
 
-import state.GridPosition;
+import state.Particle;
+import state.Position;
 import state.State;
 
 public class Move {
 
-    public GridPosition start;
-    public GridPosition end;
+    public Particle particle;
 
-    public Move capture;
+    public Position destination;
 
     public boolean checkMove(State s){
         // Apply game rules check:

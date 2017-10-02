@@ -1,10 +1,10 @@
 package algorithm;
 
-import state.GridPosition;
+import state.Position;
 
 public class Score {
 
     int score;
-    GridPosition previousGP;
+    Position previousGP;
 
 }

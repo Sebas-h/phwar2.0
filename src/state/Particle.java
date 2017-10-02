@@ -1,45 +1,24 @@
 package state;
 
 public class Particle {
-    public Type pt;
-    public Colour c;
-    public GridPosition gp;
+    public Type type;
+    public Colour colour;
+    public Position position;
 
-    public Particle(Type pt, Colour c, GridPosition gp) {
-        this.pt = pt;
-        this.c = c;
-        this.gp = gp;
+    public Particle(Type type, Colour colour, Position position) {
+        this.type = type;
+        this.colour = colour;
+        this.position = position;
     }
 
-    public GridPosition[] getPossibleMoves() {
+    public Position[] getPossibleMoves() {
+        this.position.x += 0;
+        this.position.y -= 1;
+        this.position.z += 1;
 
-        this.gp.x += 0;
-        this.gp.y -= 1;
-        this.gp.z += 1;
-
-        GridPosition gpgp = new GridPosition(1,2,3);
-        GridPosition returnlist[] = {gpgp};
+        Position gpgp = new Position(1,2,3);
+        Position returnlist[] = {gpgp};
         return returnlist;
     }
-
-
-//    public ArrayList<Particle> getChildren(){
-//        ArrayList<Particle> children = new ArrayList<>();
-//
-//        for (int i = 0; i < 6; i++) {
-//
-//            while (true) {
-//                int k = 1;
-//
-//                this.gp.x += k;
-//                this.gp.y -= k;
-//
-//                break;
-//            }
-//
-//        }
-//
-//        return children;
-//    }
 
 }

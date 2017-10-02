@@ -1,15 +1,24 @@
 package algorithm;
 
 import game.Move;
+import state.Colour;
+import state.Particle;
 import state.State;
+
+import java.util.ArrayList;
 
 public class Minimax extends Algorithm {
 
     private final int maxDepth = 3;
 
+    public Minimax(ArrayList<Particle> particles, Colour colour) {
+        super(particles, colour);
+    }
+
+
     public Score minimax(State state, int currentDepth, int maxDepth){
 
-        if (state.terminalState || currentDepth == this.maxDepth){ // add "|| terminal node" if the game is over
+        if (state.terminal || currentDepth == this.maxDepth){ // add "|| terminal node" if the game is over
             // evaluate score, return that
         }
 
@@ -25,7 +34,7 @@ public class Minimax extends Algorithm {
     }
 
     @Override
-    public Move getMove() {
+    public ArrayList<Move> getMove() {
         return null;
     }
 

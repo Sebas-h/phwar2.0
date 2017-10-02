@@ -7,58 +7,53 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private int round = 0;
-    private ArrayList<Move> history;
+    private int round = 1;
+    private ArrayList<ArrayList<Move>> history = new ArrayList<>();
 
     private State createStartState(){
-        State startState = new State();
-
-        startState.particles.put(new Particle(Type.NEUTRON, Colour.BLACK, new GridPosition(0,5,-5)), Colour.BLACK);
-
-        startState.blackParticles.add(new Particle(Type.NEUTRON, Colour.BLACK, new GridPosition(0,5,-5)));
-        startState.blackParticles.add(new Particle(Type.ELECTRON, Colour.BLACK, new GridPosition(-2,5,-3)));
-        startState.blackParticles.add(new Particle(Type.ELECTRON, Colour.BLACK, new GridPosition(0,4,-4)));
-        startState.blackParticles.add(new Particle(Type.ELECTRON, Colour.BLACK, new GridPosition(0,3,-3)));
-        startState.blackParticles.add(new Particle(Type.ELECTRON, Colour.BLACK, new GridPosition(2,3,-5)));
-        startState.blackParticles.add(new Particle(Type.PROTON, Colour.BLACK, new GridPosition(-1,5,-4)));
-        startState.blackParticles.add(new Particle(Type.PROTON, Colour.BLACK, new GridPosition(-1,4,-3)));
-        startState.blackParticles.add(new Particle(Type.PROTON, Colour.BLACK, new GridPosition(1,4,-5)));
-        startState.blackParticles.add(new Particle(Type.PROTON, Colour.BLACK, new GridPosition(1,3,-4)));
-        startState.whiteParticles.add(new Particle(Type.NEUTRON, Colour.WHITE, new GridPosition(0,-5,5)));
-        startState.whiteParticles.add(new Particle(Type.ELECTRON, Colour.WHITE, new GridPosition(-2,-3,5)));
-        startState.whiteParticles.add(new Particle(Type.ELECTRON, Colour.WHITE, new GridPosition(0,-4,4)));
-        startState.whiteParticles.add(new Particle(Type.ELECTRON, Colour.WHITE, new GridPosition(0,-3,3)));
-        startState.whiteParticles.add(new Particle(Type.ELECTRON, Colour.WHITE, new GridPosition(2,-5,3)));
-        startState.whiteParticles.add(new Particle(Type.PROTON, Colour.WHITE, new GridPosition(-1,-4,5)));
-        startState.whiteParticles.add(new Particle(Type.PROTON, Colour.WHITE, new GridPosition(-1,-3,4)));
-        startState.whiteParticles.add(new Particle(Type.PROTON, Colour.WHITE, new GridPosition(1,-5,4)));
-        startState.whiteParticles.add(new Particle(Type.PROTON, Colour.WHITE, new GridPosition(1,-4,3)));
-        return startState;
+        ArrayList<Particle> particles = new ArrayList<>();
+        particles.add(new Particle(Type.NEUTRON, Colour.BLACK, new Position(0,5,-5)));
+        particles.add(new Particle(Type.ELECTRON, Colour.BLACK, new Position(-2,5,-3)));
+        particles.add(new Particle(Type.ELECTRON, Colour.BLACK, new Position(0,4,-4)));
+        particles.add(new Particle(Type.ELECTRON, Colour.BLACK, new Position(0,3,-3)));
+        particles.add(new Particle(Type.ELECTRON, Colour.BLACK, new Position(2,3,-5)));
+        particles.add(new Particle(Type.PROTON, Colour.BLACK, new Position(-1,5,-4)));
+        particles.add(new Particle(Type.PROTON, Colour.BLACK, new Position(-1,4,-3)));
+        particles.add(new Particle(Type.PROTON, Colour.BLACK, new Position(1,4,-5)));
+        particles.add(new Particle(Type.PROTON, Colour.BLACK, new Position(1,3,-4)));
+        particles.add(new Particle(Type.NEUTRON, Colour.WHITE, new Position(0,-5,5)));
+        particles.add(new Particle(Type.ELECTRON, Colour.WHITE, new Position(-2,-3,5)));
+        particles.add(new Particle(Type.ELECTRON, Colour.WHITE, new Position(0,-4,4)));
+        particles.add(new Particle(Type.ELECTRON, Colour.WHITE, new Position(0,-3,3)));
+        particles.add(new Particle(Type.ELECTRON, Colour.WHITE, new Position(2,-5,3)));
+        particles.add(new Particle(Type.PROTON, Colour.WHITE, new Position(-1,-4,5)));
+        particles.add(new Particle(Type.PROTON, Colour.WHITE, new Position(-1,-3,4)));
+        particles.add(new Particle(Type.PROTON, Colour.WHITE, new Position(1,-5,4)));
+        particles.add(new Particle(Type.PROTON, Colour.WHITE, new Position(1,-4,3)));
+        return new State(particles,false,null);
     }
 
     private void play(){
-        State state = this.createStartState();
+        State state = createStartState();
 
-        Player black = new Minimax();
-        Player white = new Minimax();
+        Player black = new Minimax(state.particles, Colour.BLACK);
+        Player white = new Minimax(state.particles, Colour.WHITE);
 
-        Colour currentPlayer = Colour.BLACK;
+        Player currentPlayer = black;
 
-        while(!state.terminalState){
+        while(!state.terminal){
+            ArrayList<Move> moves;
+            moves = currentPlayer.getMove();
 
-            Move move;
-            if (currentPlayer == Colour.BLACK) move = black.getMove();
-            else move = white.getMove();
+            state.update(moves);
 
-            state.update(move, currentPlayer);
-            this.history.add(move); // maybe keep it limited the last 10 moves
+            this.history.add(moves); // maybe keep it limited the last 10 moves
 
-            if(currentPlayer == Colour.BLACK) currentPlayer = Colour.WHITE;
-            else currentPlayer = Colour.BLACK;
+            if(currentPlayer == black) currentPlayer = white;
+            else currentPlayer = black;
 
             this.round += 1;
         }
-
     }
 
     public static void main (String args[]){
