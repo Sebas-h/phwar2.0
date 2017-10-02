@@ -1,9 +1,9 @@
-package Algorithm;
+package algorithm;
 
-import GameState.ParticleColour;
-import GameState.State;
+import game.Move;
+import state.State;
 
-public class Minimax {
+public class Minimax extends Algorithm {
 
     private final int maxDepth = 3;
 
@@ -24,15 +24,13 @@ public class Minimax {
         return new Score();
     }
 
-    public static void main(String args[]){
-        Minimax mm = new Minimax();
+    @Override
+    public Move getMove() {
+        return null;
+    }
 
-        State s = new State();
-        s.createStartState(ParticleColour.BLACK);
-
-        for(State child: s.getChildrenProponent()){
-            //child.
-        }
-
+    @Override
+    public Score evaluateState(State s) {
+        return null;
     }
 }

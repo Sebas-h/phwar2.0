@@ -1,7 +1,4 @@
-package GameState;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+package state;
 
 import static java.lang.Math.abs;
 
@@ -39,15 +36,4 @@ public class GridPosition {
         return xName+String.valueOf(pos);
     }
 
-    static public void main(String args[]){
-        GridPosition gp = new GridPosition(1,-4,3);
-        GridPosition gp1 = new GridPosition(-2,-2,4);
-        GridPosition gp2 = new GridPosition(-4,4,0);
-        GridPosition gp3 = new GridPosition(5,0,-5);
-        String name = gp.getName();
-        System.out.println(name);
-        System.out.println(gp1.getName());
-        System.out.println(gp2.getName());
-        System.out.println(gp3.getName());
-    }
 }

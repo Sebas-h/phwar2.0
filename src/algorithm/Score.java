@@ -1,6 +1,6 @@
-package Algorithm;
+package algorithm;
 
-import GameState.GridPosition;
+import state.GridPosition;
 
 public class Score {
 

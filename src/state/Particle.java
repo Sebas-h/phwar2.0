@@ -1,13 +1,11 @@
-package GameState;
-
-import java.util.ArrayList;
+package state;
 
 public class Particle {
-    public ParticleType pt;
-    public ParticleColour c;
+    public Type pt;
+    public Colour c;
     public GridPosition gp;
 
-    public Particle(ParticleType pt, ParticleColour c, GridPosition gp) {
+    public Particle(Type pt, Colour c, GridPosition gp) {
         this.pt = pt;
         this.c = c;
         this.gp = gp;
