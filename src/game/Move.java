@@ -10,9 +10,4 @@ public class Move {
 
     public Position destination;
 
-    public boolean checkMove(State s){
-        // Apply game rules check:
-
-        return true;
-    }
 }

@@ -9,37 +9,54 @@ import java.util.ArrayList;
 
 public class Minimax extends Algorithm {
 
-    private final int maxDepth = 3;
-
     public Minimax(ArrayList<Particle> particles, Colour colour) {
         super(particles, colour);
     }
 
+    @Override
+    public ArrayList<Move> getMoves(State s) {
+        int result = minimax(s, 3,1);
+        return null;
+    }
 
-    public Score minimax(State state, int currentDepth, int maxDepth){
+    @Override
+    public int evaluate(State s) {
+        return 0;
+    }
 
-        if (state.terminal || currentDepth == this.maxDepth){ // add "|| terminal node" if the game is over
-            // evaluate score, return that
-        }
+    /**
+     * @param state state to give
+     * @param depth depth of search tree
+     * @param type 1 = MAX player, 0 = MIN player
+     * @return a score
+     */
+    public int minimax(State state, int depth, int type){
+        Integer score;
+        int value;
+        if(state.terminal || depth == 0) return evaluate(state);
+        if(type == 1){
+            score = Integer.MIN_VALUE;
 
-        if (currentDepth % 2 == 0){
-            // Max player
+            long startTime = System.nanoTime();
+            getChildren(state);
+            long endTime = System.nanoTime();
+            long duration = (endTime - startTime);
+            System.out.println(duration);
+            System.out.println(duration / 1000000);
 
+            for (State child : getChildren(state)) {
+                value = minimax(child,depth-1, 0);
+                if (value > score) score = value;
+            }
         } else {
-            // Min player
-
+            score = Integer.MIN_VALUE;
+            for (State child : getChildren(state)) {
+                value = minimax(child, depth-1, 1);
+                if (value < score) score = value;
+            }
         }
-
-        return new Score();
+        // if depth == 0 or 1? then set Move or state as well;
+        return score;
     }
 
-    @Override
-    public ArrayList<Move> getMove() {
-        return null;
-    }
-
-    @Override
-    public Score evaluateState(State s) {
-        return null;
-    }
 }

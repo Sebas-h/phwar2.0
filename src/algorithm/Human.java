@@ -14,12 +14,12 @@ public class Human extends Algorithm {
     }
 
     @Override
-    public Score evaluateState(State s) {
-        return null;
+    public int evaluate(State s) {
+        return 0;
     }
 
     @Override
-    public ArrayList<Move> getMove() {
+    public ArrayList<Move> getMoves(State s) {
         // Ask for a move through a textual or graphical interface
 
         return null;

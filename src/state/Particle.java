@@ -1,14 +1,25 @@
 package state;
 
+import java.util.ArrayList;
+
 public class Particle {
-    public Type type;
+    public int charge;
     public Colour colour;
     public Position position;
 
-    public Particle(Type type, Colour colour, Position position) {
-        this.type = type;
+    public ArrayList<Particle> lineOfSight = new ArrayList<Particle>();
+
+    public Particle(int charge, Colour colour, Position position) {
+        this.charge = charge;
         this.colour = colour;
         this.position = position;
+    }
+
+    public void updatePosition(Position newPosition){
+        // change position with newPosition;
+
+        // update lineOfSight;
+
     }
 
     public Position[] getPossibleMoves() {
@@ -21,4 +32,12 @@ public class Particle {
         return returnlist;
     }
 
+    @Override
+    public String toString() {
+        return "Particle{" +
+                "charge=" + charge +
+                ", colour=" + colour +
+                ", position=" + position.toString() +
+                '}' + '\n';
+    }
 }

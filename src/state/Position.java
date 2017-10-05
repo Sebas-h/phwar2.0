@@ -1,6 +1,6 @@
 package state;
 
-import static java.lang.Math.abs;
+import static game.Game.gridSize;
 
 public class Position {
 
@@ -14,25 +14,24 @@ public class Position {
         this.z = z;
     }
 
-    public Position(Position gp){
-        this.x = gp.x;
-        this.y = gp.y;
-        this.z = gp.z;
+    public Position(Position p){
+        this.x = p.x;
+        this.y = p.y;
+        this.z = p.z;
     }
 
     public String getName(){
         String xAxisNames[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"};
-        int gridSize = 5;
         String xName = xAxisNames[this.x + gridSize];
-        // Should be able to do this without if statement!
-        int startOffset = (abs(this.x)/2)+1;
-        int pos;
-        if (this.x <= 0){
-            pos = gridSize - Math.abs(this.x) + this.z + startOffset;
-        } else {
-            pos = gridSize - Math.abs(this.x) - this.y + startOffset;
-        }
-        return xName+String.valueOf(pos);
+        return xName + String.valueOf((z + ((x - (x&1)) / 2) + gridSize + 1));
     }
 
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
+    }
 }
