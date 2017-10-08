@@ -14,14 +14,26 @@ public class Minimax extends Algorithm {
     }
 
     @Override
-    public ArrayList<Move> getMoves(State s) {
-        int result = minimax(s, 3,1);
-        return null;
+    public ArrayList<Move> getAction(State s) {
+        Score result = minimax(s, 2,1);
+        return result.moves;
     }
 
     @Override
-    public int evaluate(State s) {
-        return 0;
+    public Score evaluate(State s) {
+        Score score = new Score();
+        int nop = 0;
+        for (Particle particle : s.particles) {
+            if(particle.colour == super.colour) nop++;
+        }
+
+        score.score = nop;
+        score.moves = new ArrayList<>();
+        for (Move priorMove : s.priorMoves) {
+            score.moves.add(new Move(priorMove.particle, priorMove.destination));
+        }
+        // score.moves = s.priorMoves;
+        return score;
     }
 
     /**
@@ -30,29 +42,27 @@ public class Minimax extends Algorithm {
      * @param type 1 = MAX player, 0 = MIN player
      * @return a score
      */
-    public int minimax(State state, int depth, int type){
-        Integer score;
-        int value;
+    public Score minimax(State state, int depth, int type){
+        Score score = new Score();
+        Score value;
         if(state.terminal || depth == 0) return evaluate(state);
         if(type == 1){
-            score = Integer.MIN_VALUE;
-
-            long startTime = System.nanoTime();
-            getChildren(state);
-            long endTime = System.nanoTime();
-            long duration = (endTime - startTime);
-            System.out.println(duration);
-            System.out.println(duration / 1000000);
-
+            score.score = Integer.MIN_VALUE;
+//            long startTime = System.nanoTime();
+//            getChildren(state);
+//            long endTime = System.nanoTime();
+//            long duration = (endTime - startTime);
+//            System.out.println(duration);
+//            System.out.println(duration / 1000000);
             for (State child : getChildren(state)) {
                 value = minimax(child,depth-1, 0);
-                if (value > score) score = value;
+                if (value.score > score.score) score = new Score(value);
             }
         } else {
-            score = Integer.MIN_VALUE;
+            score.score = Integer.MAX_VALUE;
             for (State child : getChildren(state)) {
                 value = minimax(child, depth-1, 1);
-                if (value < score) score = value;
+                if (value.score < score.score) score = new Score(value);
             }
         }
         // if depth == 0 or 1? then set Move or state as well;

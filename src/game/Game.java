@@ -31,7 +31,20 @@ public class Game {
         particles.add(new Particle(1 , Colour.WHITE, new Position(-1,-3,4)));
         particles.add(new Particle(1 , Colour.WHITE, new Position(1,-5,4)));
         particles.add(new Particle(1 , Colour.WHITE, new Position(1,-4,3)));
-        return new State(particles,false,null);
+        return new State(particles,false,null,null);
+    }
+
+    private State testStateForCapture(){
+        ArrayList<Particle> particles = new ArrayList<>();
+        particles.add(new Particle(0 , Colour.BLACK, new Position(0,5,-5)));
+        particles.add(new Particle(-1, Colour.BLACK, new Position(-1,1,0)));
+        particles.add(new Particle(1 , Colour.BLACK, new Position(-1,-2,3)));
+
+        particles.add(new Particle(0 , Colour.WHITE, new Position(0,-5,5)));
+        particles.add(new Particle(-1, Colour.WHITE, new Position(-1,4,-3)));
+        particles.add(new Particle(-1, Colour.WHITE, new Position(-4,1,3)));
+        particles.add(new Particle(1 , Colour.WHITE, new Position(4,-4,0)));
+        return new State(particles,false,null,null);
     }
 
     private void play(){
@@ -48,12 +61,9 @@ public class Game {
             // then you would have to calculate backwards; a state you can just apply straight up;
             //this.history.add(moves); // maybe keep it limited the last 10 moves
 
+            ArrayList<Move> moves = currentPlayer.getAction(state);
 
-
-            ArrayList<Move> moves;
-            moves = currentPlayer.getMoves(state);
-
-            //state.update(moves);
+            state.update(moves);
 
             if(currentPlayer == black) currentPlayer = white;
             else currentPlayer = black;
@@ -63,23 +73,26 @@ public class Game {
     }
 
     public static void main (String args[]){
+
+//        int[] src  = new int[]{1,2,3,4,5};
+//        int[] dest = new int[5];
+//
+//        int[][] fusion = {src, dest};
+//
+//        System.arraycopy( src, 0, dest, 0, src.length );
+//
+//        dest[0] = 5;
+//
+//        int[][] copyfusion = new int[fusion.length][fusion[0].length];
+//        for (int i = 0; i < fusion.length; i++) {
+//            int[] source = fusion[i];
+//            int[] destination = copyfusion[i];
+//            int length = fusion[0].length;
+//            System.arraycopy(source, 0, destination, 0, length);
+//        }
+
+
         Game game = new Game();
         game.play();
     }
-
-    /*
-    private static int row(int x, int z){
-        return z + ((x - (x&1)) / 2);
-    }
-
-    {
-        int x[] = {5, 5,-4, 4,-4,1};
-        int z[] = {0,-5, 1,-3, 3,1};
-        for (int i = 0; i < x.length; i++) {
-            int row = row(x[i], z[i]);
-            int beginRow = Math.abs(x[i])/2 + 1;
-            System.out.println((row + gridSize +1) - beginRow);
-        }
-    }
-    */
 }

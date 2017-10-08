@@ -15,6 +15,12 @@ public class Particle {
         this.position = position;
     }
 
+    public Particle(Particle particle) {
+        this.charge = particle.charge;
+        this.colour = particle.colour;
+        this.position = new Position(particle.position);
+    }
+
     public void updatePosition(Position newPosition){
         // change position with newPosition;
 

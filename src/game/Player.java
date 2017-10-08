@@ -36,6 +36,6 @@ public abstract class Player {
         return opponent;
     }
 
-    public abstract ArrayList<Move> getMoves(State s);
+    public abstract ArrayList<Move> getAction(State s);
 
 }

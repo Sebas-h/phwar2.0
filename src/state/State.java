@@ -7,28 +7,29 @@ import java.util.ArrayList;
 
 public class State {
 
-    public State parent;
-
-    public Boolean terminal;
-
     public ArrayList<Particle> particles = new ArrayList<>();
+    public Boolean terminal;
+    public State parent;
+    public ArrayList<Move> priorMoves;
 
-    public State(ArrayList<Particle> particles, Boolean terminal, State parent){
+    public State(ArrayList<Particle> particles, Boolean terminal, State parent, ArrayList<Move> priorMoves){
         this.particles = particles;
         this.terminal = terminal;
         this.parent = parent;
+        this.priorMoves = priorMoves;
     }
 
-    public State(State state){
+    public State(State state, ArrayList<Move> priorMoves){
         this.parent = state;
         this.terminal = false;
         this.particles = this.copyParticles(state.particles);
+        this.priorMoves = priorMoves;
     }
 
     private ArrayList<Particle> copyParticles(ArrayList<Particle> particles) {
         ArrayList<Particle> particlesCopy = new ArrayList<>();
         for (Particle particle : particles) {
-            particlesCopy.add(new Particle(particle.charge,particle.colour,new Position(particle.position)));
+            particlesCopy.add(new Particle(particle.charge, particle.colour, new Position(particle.position)));
         }
         return particlesCopy;
     }
@@ -36,7 +37,6 @@ public class State {
     public void update(ArrayList<Move> moves) {
         if(moves == null){
             // return exception, this should not happen
-            this.particles.get(0).position = new Position(-3,2,1);
             return;
         }
 
@@ -46,9 +46,9 @@ public class State {
 
             // Apply move
             for (Particle particle : this.particles) {
-                if(particle == move.particle) {
+                if(particle.position.x == move.particle.position.x && particle.position.y == move.particle.position.y) {
                     if (move.destination == null) this.particles.remove(particle);
-                    else particle.position = move.destination;
+                    else particle.position = new Position(move.destination.x, move.destination.y, move.destination.z);
                 }
             }
         }
@@ -61,7 +61,6 @@ public class State {
             if (move.destination != null && !isPositionOccupied(move)) return false;
             if (move.destination == null && !isOverallChargeZero(move)) return false;
         }
-
 
         return true;
     }
@@ -92,6 +91,11 @@ public class State {
                 (move.destination.y >= -Game.gridSize && move.destination.y <= Game.gridSize) &&
                 (move.destination.z >= -Game.gridSize && move.destination.z <= Game.gridSize) &&
                 (move.destination.x + move.destination.y + move.destination.z == 0);
+    }
+
+    public Particle getParticleClosest(Particle particle, Direction direction){
+
+        return null;
     }
 
     @Override
