@@ -1,9 +1,9 @@
 package algorithm;
 
 import game.Move;
-import state.Colour;
-import state.Particle;
-import state.State;
+import game.Colour;
+import game.Particle;
+import game.State;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class Minimax extends Algorithm {
         Score score = new Score();
         int nop = 0;
         for (Particle particle : s.particles) {
-            if(particle.colour == super.colour) nop++;
+            if(particle.colour == super.playerColour) nop++;
         }
 
         score.score = nop;
@@ -49,18 +49,18 @@ public class Minimax extends Algorithm {
         if(type == 1){
             score.score = Integer.MIN_VALUE;
 //            long startTime = System.nanoTime();
-//            getChildren(state);
+//            getChildrenOld(state);
 //            long endTime = System.nanoTime();
 //            long duration = (endTime - startTime);
 //            System.out.println(duration);
 //            System.out.println(duration / 1000000);
-            for (State child : getChildren(state)) {
+            for (State child : getChildrenState(state)) {
                 value = minimax(child,depth-1, 0);
                 if (value.score > score.score) score = new Score(value);
             }
         } else {
             score.score = Integer.MAX_VALUE;
-            for (State child : getChildren(state)) {
+            for (State child : getChildrenState(state)) {
                 value = minimax(child, depth-1, 1);
                 if (value.score < score.score) score = new Score(value);
             }

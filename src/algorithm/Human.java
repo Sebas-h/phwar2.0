@@ -1,9 +1,9 @@
 package algorithm;
 
 import game.Move;
-import state.Colour;
-import state.Particle;
-import state.State;
+import game.Colour;
+import game.Particle;
+import game.State;
 
 import java.util.ArrayList;
 

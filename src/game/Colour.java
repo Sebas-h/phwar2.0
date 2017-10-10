@@ -1,4 +1,4 @@
-package state;
+package game;
 
 public enum Colour {
     WHITE, BLACK;

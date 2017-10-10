@@ -1,32 +1,57 @@
 package algorithm;
 
-import game.Move;
-import game.Player;
-import state.*;
+import game.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
-import static game.Game.gridSize;
+import static game.Game.boardGridSize;
 
-public abstract class Algorithm extends Player {
+public abstract class Algorithm {
+
+    public Colour playerColour;
 
     public Algorithm(ArrayList<Particle> particles, Colour colour) {
-        super(particles, colour);
+
     }
+
+    public abstract ArrayList<Move> getAction(State s);
 
     public abstract Score evaluate(State s);
 
-    public ArrayList<State> getChildren(State state) {
+    public State[] getChildrenState(State state){
+
+        return null;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+    public ArrayList<State> getChildrenOld(State state) {
 
         ArrayList<State> children = new ArrayList<>();
 
-        // todo: add move ordering on proponent list; that could work right?
-
         int index = 0;
         for (Particle toMove : state.particles) {
-            if (toMove.colour == super.colour) {
+            if (toMove.colour == this.playerColour) {
                 int upY = 11;
                 int downZ = 11;
                 int upRightX = 11;
@@ -81,7 +106,7 @@ public abstract class Algorithm extends Player {
                 // UP:
                 for (int y = toMove.position.y + 1, z = toMove.position.z - 1;
                      y < upY && Math.abs(y) < 6 && Math.abs(z) < 6; y++, z--) {
-                    Position newPos = new Position(toMove.position.x, y, z);
+                    Coordinate newPos = new Coordinate(toMove.position.x, y, z);
 
                     ArrayList<Move> priorMoves = new ArrayList<>();
                     priorMoves.add(new Move(toMove, newPos));
@@ -94,7 +119,7 @@ public abstract class Algorithm extends Player {
                 // DOWN:
                 for (int y = toMove.position.y - 1, z = toMove.position.z + 1;
                      z < downZ && Math.abs(y) < 6 && Math.abs(z) < 6; z++, y--) {
-                    Position newPos = new Position(toMove.position.x, y, z);
+                    Coordinate newPos = new Coordinate(toMove.position.x, y, z);
 
                     ArrayList<Move> priorMoves = new ArrayList<>();
                     priorMoves.add(new Move(toMove, newPos));
@@ -107,7 +132,7 @@ public abstract class Algorithm extends Player {
                 // UPRIGHT:
                 for (int x = toMove.position.x + 1, z = toMove.position.z - 1;
                      x < upRightX && Math.abs(x) < 6 && Math.abs(z) < 6; z--, x++) {
-                    Position newPos = new Position(x, toMove.position.y, z);
+                    Coordinate newPos = new Coordinate(x, toMove.position.y, z);
 
                     ArrayList<Move> priorMoves = new ArrayList<>();
                     priorMoves.add(new Move(toMove, newPos));
@@ -121,7 +146,7 @@ public abstract class Algorithm extends Player {
                 for (int x = toMove.position.x - 1, z = toMove.position.z + 1;
                      z < downLeftZ && Math.abs(x) < 6 && Math.abs(z) < 6;
                      z++, x--) {
-                    Position newPos = new Position(x, toMove.position.y, z);
+                    Coordinate newPos = new Coordinate(x, toMove.position.y, z);
 
                     ArrayList<Move> priorMoves = new ArrayList<>();
                     priorMoves.add(new Move(toMove, newPos));
@@ -134,7 +159,7 @@ public abstract class Algorithm extends Player {
                 // DOWNRIGHT:
                 for (int x = toMove.position.x + 1, y = toMove.position.y - 1;
                      x < downRightX && Math.abs(x) < 6 && Math.abs(y) < 6; y--, x++) {
-                    Position newPos = new Position(x, y, toMove.position.z);
+                    Coordinate newPos = new Coordinate(x, y, toMove.position.z);
 
                     ArrayList<Move> priorMoves = new ArrayList<>();
                     priorMoves.add(new Move(toMove, newPos));
@@ -147,7 +172,7 @@ public abstract class Algorithm extends Player {
                 // UPLEFT:
                 for (int x = toMove.position.x - 1, y = toMove.position.y + 1;
                      y < upLeftY && Math.abs(x) < 6 && Math.abs(y) < 6; y++, x--) {
-                    Position newPos = new Position(x, y, toMove.position.z);
+                    Coordinate newPos = new Coordinate(x, y, toMove.position.z);
 
                     ArrayList<Move> priorMoves = new ArrayList<>();
                     priorMoves.add(new Move(toMove, newPos));
@@ -177,7 +202,7 @@ public abstract class Algorithm extends Player {
 
             ArrayList<Particle> lineOfSightParticles = new ArrayList<>();
 
-            if(toCapture.colour != super.colour) {
+            if(toCapture.colour != this.playerColour) {
 
                 for (Particle particle : state.particles) {
                     if (toCapture != particle) {
@@ -221,7 +246,7 @@ public abstract class Algorithm extends Player {
 
                 for (Particle particle : lineOfSightParticles) {
                     if (particle != null) {
-                        if (particle.colour == super.colour) numberOfProponentParticles++;
+                        if (particle.colour == this.playerColour) numberOfProponentParticles++;
                         totalCharge += particle.charge;
                     }
                 }
@@ -229,8 +254,8 @@ public abstract class Algorithm extends Player {
                 if (totalCharge == 0 &&numberOfProponentParticles > 1) {
                     for (Particle particle : lineOfSightParticles) {
                         if (particle != null) {
-                            if (particle.colour == super.colour) {
-                                Position newPos = new Position(toCapture.position.x, toCapture.position.y, toCapture.position.z);
+                            if (particle.colour == this.playerColour) {
+                                Coordinate newPos = new Coordinate(toCapture.position.x, toCapture.position.y, toCapture.position.z);
                                 ArrayList<Move> priorMoves = new ArrayList<>();
                                 priorMoves.add(new Move(toCapture, newPos));
                                 State newState = new State(state, priorMoves);
@@ -263,7 +288,7 @@ public abstract class Algorithm extends Player {
                 state.terminal = true;
                 return;
             }
-            if (particle.colour != super.colour){
+            if (particle.colour != this.playerColour){
                 if(particle.charge == 0) neutron++;
                 else if(particle.charge == -1) electrons++;
                 else if(particle.charge == 1) protons++;
@@ -273,12 +298,13 @@ public abstract class Algorithm extends Player {
     }
 
     private static int tilesToTopEdge(int x, int z){
-        int i = ((z + ((x - (x&1)) / 2) + gridSize + 1));
+        int i = ((z + ((x - (x&1)) / 2) + boardGridSize + 1));
         int j = ((Math.abs(x)/2) + 1);
 
-        return ((z + ((x - (x&1)) / 2) + gridSize + 1) -
+        return ((z + ((x - (x&1)) / 2) + boardGridSize + 1) -
                 ((Math.abs(x)/2) + 1));
     }
+*/
 
 
 
@@ -294,40 +320,3 @@ public abstract class Algorithm extends Player {
      *
      * give back state objects (these are the moves the expanded particle can do)
      */
-
-
-    /*
-    function cube_to_oddq(cube):
-        col = cube.x
-        row = cube.z + (cube.x - (cube.x&1)) / 2
-        return Hex(col, row)
-          ____
-         /    \
-    ____/ 3,0  \____
-   /    \      /    \
-  /      \____/      \
-  \      /    \      /
-   \____/      \____/
-   /    \      /    \
-  /      \____/      \
-  \      /    \      /
-   \____/      \____/
-        \      /
-         \____/
-    */
-    private static int[] cube_to_oddq(int x, int z){
-        return new int[] {x, (z + (x - (x&1)) / 2)};
-    }
-
-    public static void main(String args[]){
-        System.out.println(tilesToTopEdge(-5, 1));
-        System.out.println(Arrays.toString(cube_to_oddq(5,-5)));
-
-        int x = -2;
-        int y = 4;
-        int z = -2;
-        int dis = ((x + ((y - (y&1)) / 2) + gridSize + 1) -
-                ((Math.abs(y)/2) + 1));
-        System.out.println(dis);
-    }
-}
