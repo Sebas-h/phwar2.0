@@ -105,4 +105,63 @@ public class State {
                 ", particles=" + particles +
                 '}' + '\n';
     }
+
+    public ArrayList<Move> getPossibleMovesParticle(Particle particle){
+        ArrayList<Move> moves = new ArrayList<>();
+        for (int[] direction : Direction.directions) {
+            for (int i = 1; i < numberOfUnobstructedMoves(particle, direction); i++) {
+                moves.add(new Move(particle, new int[] {
+                        particle.coordinate[0] + (direction[0] * i),
+                        particle.coordinate[1] + (direction[1] * i),
+                        particle.coordinate[2] + (direction[2] * i)}));
+            }
+        }
+        return moves;
+    }
+
+    private int numberOfUnobstructedMoves(Particle particle, int[] direction) {
+        /**
+         *   O
+         *   -  O
+         *   - -
+         *   O      <-- can move up twice and upright once
+         *
+         * loop over particles (instead of looping at every step to check if coordinate not occupied)
+         * get the one with direction 1
+         *
+         */
+        int indexZero = 3;
+        int indexPosOne = 3;
+        int indexNegOne = 3;
+        for (int i = 0; i < direction.length; i++) {
+            if(direction[i] == 0) indexZero = i;
+            else if(direction[i] == 1) indexPosOne = i;
+            else if(direction[i] == -1) indexNegOne = i;
+        }
+        if (indexZero == 3 || indexPosOne == 3 || indexNegOne == 3)
+            throw new IllegalArgumentException("Parameter incorrect!");
+        
+        int min = 10;
+        boolean particleEncountered = false;
+        for (Particle otherParticle : this.particles) {
+            if(particle != otherParticle && 
+                    particle.coordinate[indexZero] == otherParticle.coordinate[indexZero] &&
+                    particle.coordinate[indexPosOne] < otherParticle.coordinate[indexPosOne]) {
+                particleEncountered = true;
+                int dif = otherParticle.coordinate[indexPosOne] - particle.coordinate[indexPosOne];
+                if(dif < min) min = dif;
+            }
+        }
+        
+        if(!particleEncountered) {
+            int i = 1;
+            do {
+                i++;
+            } while (Math.abs(particle.coordinate[indexPosOne] + i) < 6 ||
+                    Math.abs(particle.coordinate[indexNegOne] - i) < 6);
+            return i;
+        }
+        
+        return min;
+    }
 }

@@ -6,6 +6,7 @@ public class Particle {
     public int charge;
     public Colour colour;
     public Position position;
+    public int[] coordinate;
 
     public ArrayList<Particle> lineOfSight = new ArrayList<Particle>();
 

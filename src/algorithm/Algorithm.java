@@ -5,6 +5,8 @@ import game.Player;
 import state.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 import static game.Game.gridSize;
 
@@ -17,6 +19,7 @@ public abstract class Algorithm extends Player {
     public abstract Score evaluate(State s);
 
     public ArrayList<State> getChildren(State state) {
+
         ArrayList<State> children = new ArrayList<>();
 
         // todo: add move ordering on proponent list; that could work right?
@@ -269,13 +272,62 @@ public abstract class Algorithm extends Player {
         if(neutron == 0 || electrons == 0 || protons == 0) state.terminal = true;
     }
 
-    private int tilesToTopEdge(int x, int z){
+    private static int tilesToTopEdge(int x, int z){
+        int i = ((z + ((x - (x&1)) / 2) + gridSize + 1));
+        int j = ((Math.abs(x)/2) + 1);
+
         return ((z + ((x - (x&1)) / 2) + gridSize + 1) -
                 ((Math.abs(x)/2) + 1));
     }
 
-    public ArrayList<Move> getMoves(Particle particle, Direction direction){
-        
-        return null;
+
+
+    /**
+     * get possible moves for a particle: check each of six directions how far you can move;
+     * make move object for all the cell you can move to.
+     *
+     * apply move? because you will have to do this anyway to check for (consecutive captures)
+     *
+     * check new state for captures: every sequence of captures has their own state
+     * which means that a move for a particle (which is already a new state) can evolve to
+     * 2 or more new-new states on the same ply as the new state (which gets removed, as capturing is mandatory)
+     *
+     * give back state objects (these are the moves the expanded particle can do)
+     */
+
+
+    /*
+    function cube_to_oddq(cube):
+        col = cube.x
+        row = cube.z + (cube.x - (cube.x&1)) / 2
+        return Hex(col, row)
+          ____
+         /    \
+    ____/ 3,0  \____
+   /    \      /    \
+  /      \____/      \
+  \      /    \      /
+   \____/      \____/
+   /    \      /    \
+  /      \____/      \
+  \      /    \      /
+   \____/      \____/
+        \      /
+         \____/
+    */
+    private static int[] cube_to_oddq(int x, int z){
+        return new int[] {x, (z + (x - (x&1)) / 2)};
+    }
+
+    public static void main(String args[]){
+        System.out.println(tilesToTopEdge(-5, 1));
+        System.out.println(Arrays.toString(cube_to_oddq(5,-5)));
+
+        int x = -2;
+        int y = 4;
+        int z = -2;
+        int dis = ((x + ((y - (y&1)) / 2) + gridSize + 1) -
+                ((Math.abs(y)/2) + 1));
+        System.out.println(dis);
     }
 }

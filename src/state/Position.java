@@ -22,8 +22,7 @@ public class Position {
 
     public String getName(){
         String xAxisNames[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"};
-        String xName = xAxisNames[this.x + gridSize];
-        return xName + String.valueOf((z + ((x - (x&1)) / 2) + gridSize + 1));
+        return xAxisNames[this.x + gridSize] + String.valueOf((z + ((x - (x&1)) / 2) + gridSize + 1));
     }
 
     @Override
