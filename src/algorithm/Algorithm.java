@@ -5,8 +5,6 @@ import game.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static game.Game.boardGridSize;
-
 public abstract class Algorithm {
 
     public Colour playerColour;
@@ -19,9 +17,86 @@ public abstract class Algorithm {
 
     public abstract Score evaluate(State s);
 
-    public State[] getChildrenState(State state){
+    public State[] getChildren(State state){
+
+        for (Particle particle : state.particles) {
+            // get possible moves
+            ArrayList<Move> possibleMoves = state.getPossibleMovesParticle(particle);
+            // apply moves
+            ArrayList<State> children = applyMoves(state, possibleMoves);
+
+            /*
+            ArrayList of new states
+            for every state:
+                List captures;
+                while(possibleCaptures()):
+                    captures.add(captureMove);
+
+            possibleCaptures():
+                for every opponent particles:
+                    if (opPar == capturable):
+                        capture -> gives new state;
+                        check capture(new state);
+
+             */
+
+            // get captures
+            children = applyCaptures(children);
+            // apply captures
+        }
+
 
         return null;
+    }
+
+    private ArrayList<State> applyCaptures(ArrayList<State> states) {
+        ArrayList<State> nChildren = new ArrayList<>();
+        for (State state : states) {
+            ArrayList<State> statS = captures(state);
+        }
+        return nChildren;
+    }
+
+    private ArrayList<State> captures(State state) {
+        ArrayList<State> result = new ArrayList<>();
+        ArrayList<Move> captureMoves = getCaptureMoves(state);
+        if (captureMoves == null) {result.add(state); return result;}
+        for (State s : applyMoves(state, captureMoves)) {
+            result.addAll(captures(s));
+        }
+        return result;
+    }
+
+
+    private ArrayList<Move> getCaptureMoves(State state) {
+        ArrayList<Move> moves = new ArrayList<>();
+        for (Particle particle : state.particles) {
+            if(particle.colour != this.playerColour){
+                // Is capturable?
+                // Make Move object for capture for each friendly particle able to capture
+                // 
+            }
+        }
+        return moves;
+    }
+
+    private ArrayList<State> applyMoves(State state, ArrayList<Move> moves) {
+        ArrayList<State> resultingStates = new ArrayList<>();
+        for (Move move : moves) {
+            // new deep copied state:
+            State nState = new State(state);
+            for (Particle particle : nState.particles) {
+                if(Arrays.equals(particle.coordinate, move.particle.coordinate)){
+                    if (move.capture){
+                        nState.particles.removeIf(p -> Arrays.equals(p.coordinate , move.destination));
+                    }
+                    particle.coordinate = Arrays.copyOf(move.destination, 3);
+                    nState.priorMoves.add(move);
+                    resultingStates.add(nState);
+                }
+            }
+        }
+        return resultingStates;
     }
 
 }

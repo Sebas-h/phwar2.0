@@ -30,7 +30,7 @@ public class Minimax extends Algorithm {
         score.score = nop;
         score.moves = new ArrayList<>();
         for (Move priorMove : s.priorMoves) {
-            score.moves.add(new Move(priorMove.particle, priorMove.destination));
+            score.moves.add(new Move(priorMove.particle, priorMove.destination, priorMove.capture));
         }
         // score.moves = s.priorMoves;
         return score;
@@ -54,13 +54,13 @@ public class Minimax extends Algorithm {
 //            long duration = (endTime - startTime);
 //            System.out.println(duration);
 //            System.out.println(duration / 1000000);
-            for (State child : getChildrenState(state)) {
+            for (State child : getChildren(state)) {
                 value = minimax(child,depth-1, 0);
                 if (value.score > score.score) score = new Score(value);
             }
         } else {
             score.score = Integer.MAX_VALUE;
-            for (State child : getChildrenState(state)) {
+            for (State child : getChildren(state)) {
                 value = minimax(child, depth-1, 1);
                 if (value.score < score.score) score = new Score(value);
             }

@@ -40,7 +40,7 @@ public class Game {
         this.white = new Minimax(particles,Colour.WHITE);
     }
 
-    private State testStateForCapture(){
+    private void testStateForCapture(){
         ArrayList<Particle> particles = new ArrayList<>();
         particles.add(new Particle(0 , Colour.BLACK, new int[] {0,5,-5 }));
         particles.add(new Particle(-1, Colour.BLACK, new int[] {-1,1,0 }));
@@ -48,8 +48,10 @@ public class Game {
         particles.add(new Particle(0 , Colour.WHITE, new int[] {0,-5,5 }));
         particles.add(new Particle(-1, Colour.WHITE, new int[] {-1,4,-3}));
         particles.add(new Particle(-1, Colour.WHITE, new int[] {-4,1,3 }));
-        particles.add(new Particle(1 , Colour.WHITE, new int[] {4,-4,0 }));
-        return new State(particles,false,null,null);
+        particles.add(new Particle(1 , Colour.WHITE, new int[] {2,-2,0 }));
+        this.gameState = new State(particles, false,null,null);
+        this.black = new Minimax(particles,Colour.BLACK);
+        this.white = new Minimax(particles,Colour.WHITE);
     }
 
     private void play(){
@@ -75,7 +77,8 @@ public class Game {
 
     public static void main (String args[]){
         Game game = new Game();
-        game.createStartState();
+        //game.createStartState();
+        game.testStateForCapture();
         game.play();
     }
 }

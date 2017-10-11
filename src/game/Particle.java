@@ -1,6 +1,8 @@
 package game;
 
 
+import java.util.Arrays;
+
 import static game.Game.boardGridSize;
 
 public class Particle {
@@ -17,7 +19,7 @@ public class Particle {
     public Particle(Particle p) {
         this.charge = p.charge;
         this.colour = p.colour;
-        System.arraycopy(p.coordinate,0,this.coordinate,0, 3); // wrong, no array init?
+        this.coordinate = Arrays.copyOf(p.coordinate, 3);
     }
 
     public String getCoordinateName(){

@@ -15,7 +15,7 @@ public class Score {
         this.score = score.score;
         this.moves = new ArrayList<>();
         for (Move move : score.moves) {
-            moves.add(new Move(move.particle, move.destination));
+            moves.add(new Move(move.particle, move.destination, move.capture));
         }
     }
 
