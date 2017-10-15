@@ -14,11 +14,17 @@ public class Move {
         this.capture = capture;
     }
 
+    public Move(Move move){
+        this.capture = move.capture;
+        this.destination = Arrays.copyOf(move.destination,move.destination.length);
+        this.particle = new Particle(move.particle);
+    }
+
     @Override
     public String toString() {
-        return "Move{" +
+        return "\nMove{" +
                 "particle=" + particle +
-                ", destination=" + Arrays.toString(destination) +
+                ", destination=" + Particle.getCoordinateName(destination) +
                 ", capture=" + capture +
                 '}' + '\n';
     }

@@ -10,12 +10,7 @@ import java.util.ArrayList;
 public class Human extends Algorithm {
 
     public Human(ArrayList<Particle> particles, Colour colour) {
-        super(particles, colour);
-    }
-
-    @Override
-    public Score evaluate(State s) {
-        return null;
+        super(colour);
     }
 
     @Override

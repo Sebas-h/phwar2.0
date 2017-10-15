@@ -10,6 +10,8 @@ public class Particle {
     public Colour colour;
     public int[] coordinate;
 
+    public Particle(){}
+
     public Particle(int charge, Colour colour, int[] coordinate) {
         this.charge = charge;
         this.colour = colour;
@@ -19,14 +21,21 @@ public class Particle {
     public Particle(Particle p) {
         this.charge = p.charge;
         this.colour = p.colour;
-        this.coordinate = Arrays.copyOf(p.coordinate, 3);
+        this.coordinate = Arrays.copyOf(p.coordinate, p.coordinate.length);
     }
 
-    public String getCoordinateName(){
+    public static String getCoordinateName(int[] coordinate){
         String xAxisNames[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"};
-        return xAxisNames[this.coordinate[0] + boardGridSize] +
-                String.valueOf((this.coordinate[2] + ((this.coordinate[0] - (this.coordinate[0]&1)) / 2) + boardGridSize + 1));
+        return xAxisNames[coordinate[0] + boardGridSize] +
+                String.valueOf((coordinate[2] + ((coordinate[0] - (coordinate[0]&1)) / 2) + boardGridSize + 1));
     }
 
-
+    @Override
+    public String toString() {
+        return "Particle{" +
+                "charge=" + charge +
+                ", colour=" + colour +
+                ", coordinate=" + getCoordinateName(coordinate) +
+                '}' + '\n';
+    }
 }
