@@ -19,13 +19,13 @@ public class Game {
     private int turn = 1;
     private ArrayList<ArrayList<Move>> history = new ArrayList<>();
 
-    private Game(Algorithm playerBlack, Algorithm playerWhite){
+    public Game(Algorithm playerBlack, Algorithm playerWhite){
         createStartState();
         this.black = playerBlack;
         this.white = playerWhite;
     }
 
-    private void createStartState(){
+    public void createStartState(){
         ArrayList<Particle> particles = new ArrayList<>();
         particles.add(new Particle(0 , Colour.BLACK, new int[] {0,5,-5 }));
         particles.add(new Particle(-1, Colour.BLACK, new int[] {-2,5,-3}));
@@ -57,7 +57,7 @@ public class Game {
         this.gameState = new State(particles, false);
     }
 
-    private Colour play(){
+    public void play(){
         Algorithm currentPlayer = this.black;
         while(!this.gameState.terminal){
             // add a state to history; when 'undo' set state (var) to state from history;
@@ -70,7 +70,7 @@ public class Game {
             ArrayList<Move> moves = currentPlayer.getAction(this.gameState);
 
             long duration = (System.nanoTime() - startTime);
-            System.out.println("turn " + this.turn + ": " + duration / 1000000); // milliseconds
+            System.out.println("turn " + this.turn + ": " + duration / 1000000 + " ms"); // milliseconds
             System.out.println(moves.get(0).particle.colour + ": " + printMoves(moves) + "\n");
 
             this.gameState.update(moves);
@@ -81,7 +81,7 @@ public class Game {
 
             this.turn += 1;
         }
-        return currentPlayer.opponentColour; // because of the switch in current player;
+        System.out.println("\nWinner = " + currentPlayer.opponentColour); // because of the switch in current player;
     }
 
     private String printMoves(List<Move> moves){
@@ -98,11 +98,9 @@ public class Game {
     public static void main (String args[]){
         Game game = new Game(
                 new NegaMax(Colour.BLACK),
-//                new MiniMax(Colour.BLACK),
                 new RandomPlayer(Colour.WHITE)
         );
         game.createStartState();
-        Colour winner = game.play();
-        System.out.println("\nWinner = " + winner);
+        game.play();
     }
 }

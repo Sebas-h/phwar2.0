@@ -28,28 +28,20 @@ public class Evaluation {
 
         int electronDifference          = differenceParticle(-1);
         int positronsDifference         = differenceParticle(1);
-        int neutronInCenter               = neutronInCenter() ? 1 : 0;
+        int possibleMovesDiff           = diffPossibleMoves();
+
+        int pieceInCenter               = pieceInCenter() ? 1 : 0;
         int diffCircle1                 = differenceCenterControl(1);
         int diffCircle2                 = differenceCenterControl(2);
-//        int diffCircle3                 = differenceCenterControl(3);
-//        int diffCircle4                 = differenceCenterControl(4);
-//        int diffCircle5                 = differenceCenterControl(5);
-        int possibleMovesDiff           = diffPossibleMoves();
-//        int movesWithDirectCaptureDiff  = diffMovesWithDirectCapture();
-//        int movesWithCaptureDiff        = diffMovesWithCapture();
 
         List<Feature> features = new ArrayList<>();
-        features.add(new Feature(electronDifference,            5));
-        features.add(new Feature(positronsDifference ,          5));
-        features.add(new Feature(neutronInCenter,                 10));
-        features.add(new Feature(diffCircle1,                   4));
-        features.add(new Feature(diffCircle2,                   2));
-//        features.add(new Feature(diffCircle3,                   1));
-//        features.add(new Feature(diffCircle4,                   1));
-//        features.add(new Feature(diffCircle5,                   1));
-        features.add(new Feature(possibleMovesDiff,             5));
-//        features.add(new Feature(movesWithDirectCaptureDiff,    1));
-//        features.add(new Feature(movesWithCaptureDiff, 1));
+        features.add(new Feature(electronDifference,        1));
+        features.add(new Feature(positronsDifference ,      1));
+        features.add(new Feature(possibleMovesDiff,         1));
+
+        features.add(new Feature(pieceInCenter,           1));
+        features.add(new Feature(diffCircle1,               1));
+//        features.add(new Feature(diffCircle2,               1));
 
         int evalScore = 0;
         // Summing the features*weights to get evaluation score:
@@ -99,6 +91,16 @@ public class Evaluation {
         return numCapMovesProponent - numCapMovesOpponent;
     }
 
+    private int differenceParticle(int charge) {
+        int numProponent = 0;
+        int numOpponent = 0;
+        for (Particle particle : this.state.particles) {
+            if(particle.charge == charge && particle.colour == this.povColour) numProponent++;
+            else if(particle.charge == charge) numOpponent++;
+        }
+        return numProponent - numOpponent;
+    }
+
     private int diffPossibleMoves() {
         int countProponent = 0;
         int countOpponent = 0;
@@ -122,29 +124,16 @@ public class Evaluation {
         return countProponent - countOpponent;
     }
 
-    private boolean neutronInCenter() {
+    private boolean pieceInCenter() {
         for (Particle particle : this.state.particles) {
-            if(particle.colour == this.povColour && particle.charge == 0 &&
+            if(particle.colour == this.povColour &&
                     Arrays.equals(particle.coordinate, new int[]{0,0,0})) return true;
         }
         return false;
     }
 
-    private int differenceParticle(int charge) {
-        int numProponent = 0;
-        int numOpponent = 0;
-        for (Particle particle : this.state.particles) {
-            if(particle.charge == charge && particle.colour == this.povColour) numProponent++;
-            else if(particle.charge == charge) numOpponent++;
-        }
-        return numProponent - numOpponent;
-    }
 
     public static void main(String[] args) {
-//        List<Integer> a = Arrays.asList(1, 2);
-//        List<Integer> b = Arrays.asList(3, 4);
-//        int[] d = new int[] {1,2,3};
-
         ArrayList<Particle> particles = new ArrayList<>();
         particles.add(new Particle(0 , Colour.BLACK, new int[] {0,5,-5 }));
         particles.add(new Particle(-1, Colour.BLACK, new int[] {-1,1,0 }));

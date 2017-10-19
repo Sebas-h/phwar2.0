@@ -1,5 +1,6 @@
 package algorithm;
 
+import game.Game;
 import game.Move;
 import game.Colour;
 import game.State;
@@ -15,6 +16,7 @@ public class MiniMax extends Algorithm {
     @Override
     public ArrayList<Move> getAction(State s) {
         Score result = miniMax(s, 2,1);
+        System.out.println("[" + result.score + "]");
         return result.moves;
     }
 
@@ -45,5 +47,14 @@ public class MiniMax extends Algorithm {
             }
         }
         return score;
+    }
+
+    public static void main(String[] args) {
+        Game game = new Game(
+                new MiniMax(Colour.BLACK),
+                new RandomPlayer(Colour.WHITE)
+        );
+        game.createStartState();
+        game.play();
     }
 }

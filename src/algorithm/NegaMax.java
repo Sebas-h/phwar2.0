@@ -1,6 +1,7 @@
 package algorithm;
 
 import game.Colour;
+import game.Game;
 import game.Move;
 import game.State;
 
@@ -17,7 +18,7 @@ public class NegaMax extends Algorithm{
 
     @Override
     public ArrayList<Move> getAction(State s) {
-        Score result = negaMax(s, 3,
+        Score result = negaMax(s, 2,
                 Integer.MIN_VALUE + 1, Integer.MAX_VALUE,
                 super.playerColour, 1);
         System.out.println("[" + result.score + "]");
@@ -52,7 +53,7 @@ public class NegaMax extends Algorithm{
             value.score *= -1;
             if(value.score > score.score) score = value;
             if(score.score > alpha) alpha = score.score;
-            if(score.score >= beta) break; // pruning
+            if(score.score >= beta) break; // alpha beta pruning
         }
         return score;
     }
@@ -60,5 +61,14 @@ public class NegaMax extends Algorithm{
     private Colour getOppositeColour(Colour povColour) {
         if(povColour == Colour.BLACK) return Colour.WHITE;
         return Colour.BLACK;
+    }
+
+    public static void main(String[] args) {
+        Game game = new Game(
+                new NegaMax(Colour.BLACK),
+                new RandomPlayer(Colour.WHITE)
+        );
+        game.createStartState();
+        game.play();
     }
 }
