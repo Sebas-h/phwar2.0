@@ -97,7 +97,7 @@ public class Game {
 
     public static void main (String args[]){
         Game game = new Game(
-                new NegaMax(Colour.BLACK),
+                new NegaMax(Colour.BLACK, 2),
                 new RandomPlayer(Colour.WHITE)
         );
         game.createStartState();

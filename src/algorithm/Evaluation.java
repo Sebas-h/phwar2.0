@@ -21,27 +21,18 @@ public class Evaluation {
         Score score = new Score();
         score.moves = getFirstPlyMoves(this.state.priorMoves);
 
-//        if (this.state.terminal) {
-//            score.score = 100000; // maximum score, game needs to end here
-//            return score;
-//        }
-
         int electronDifference          = differenceParticle(-1);
         int positronsDifference         = differenceParticle(1);
         int possibleMovesDiff           = diffPossibleMoves();
-
         int pieceInCenter               = pieceInCenter() ? 1 : 0;
         int diffCircle1                 = differenceCenterControl(1);
-        int diffCircle2                 = differenceCenterControl(2);
 
         List<Feature> features = new ArrayList<>();
         features.add(new Feature(electronDifference,        1));
         features.add(new Feature(positronsDifference ,      1));
         features.add(new Feature(possibleMovesDiff,         1));
-
-        features.add(new Feature(pieceInCenter,           1));
+        features.add(new Feature(pieceInCenter,             1));
         features.add(new Feature(diffCircle1,               1));
-//        features.add(new Feature(diffCircle2,               1));
 
         int evalScore = 0;
         // Summing the features*weights to get evaluation score:

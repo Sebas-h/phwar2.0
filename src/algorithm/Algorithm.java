@@ -134,7 +134,7 @@ public abstract class Algorithm {
 
         State state = new State(particles, false);
 
-        Algorithm algo = new MiniMax(Colour.WHITE);
+        Algorithm algo = new MiniMax(Colour.WHITE, 2);
         ArrayList<State> children = algo.getChildren(state, algo.playerColour);
 
         return;

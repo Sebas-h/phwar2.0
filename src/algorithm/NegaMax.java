@@ -10,15 +10,17 @@ import java.util.ArrayList;
 public class NegaMax extends Algorithm{
 
     private Colour currentPlayer;
+    private int depth;
 
-    public NegaMax(Colour colour) {
+    public NegaMax(Colour colour, int depth) {
         super(colour);
         this.currentPlayer = colour;
+        this.depth = depth;
     }
 
     @Override
     public ArrayList<Move> getAction(State s) {
-        Score result = negaMax(s, 2,
+        Score result = negaMax(s, this.depth,
                 Integer.MIN_VALUE + 1, Integer.MAX_VALUE,
                 super.playerColour, 1);
         System.out.println("[" + result.score + "]");
@@ -49,6 +51,11 @@ public class NegaMax extends Algorithm{
 
         score.score = Integer.MIN_VALUE + 1;
         for (State state : getChildren(s, povColour)) {
+            // Stop search if first ply search gives terminal state:
+            if(depth == this.depth && state.terminal){
+                score.score = 1_000_000;
+                score.moves = Evaluation.getFirstPlyMoves(state.priorMoves);
+            }
             value = negaMax(state, depth-1, -alpha, -beta, getOppositeColour(povColour), -color);
             value.score *= -1;
             if(value.score > score.score) score = value;
@@ -65,8 +72,9 @@ public class NegaMax extends Algorithm{
 
     public static void main(String[] args) {
         Game game = new Game(
-                new NegaMax(Colour.BLACK),
-                new RandomPlayer(Colour.WHITE)
+                new NegaMax(Colour.BLACK, 2),
+                new MiniMax(Colour.WHITE, 2)
+//                new RandomPlayer(Colour.WHITE)
         );
         game.createStartState();
         game.play();
