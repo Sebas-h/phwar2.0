@@ -54,7 +54,7 @@ http://www.tonypa.pri.ee/tbw/tut25.html
         h=2*r;
     }
     public static void setHeight(int height) {
-        h = height;			// h = basic dimension: height (distance between two adj centresr aka size)
+        h = height;			// h = basic dimension: height (distance between two adj centres aka size)
         r = h/2;			// r = radius of inscribed circle
         s = (int) (h / 1.73205);	// s = (h/2)/cos(30)= (h/2) / (sqrt(3)/2) = h / sqrt(3)
         t = (int) (r / 1.73205);	// t = (h/2) tan30 = (h/2) 1/sqrt(3) = h / (2 sqrt(3)) = r / sqrt(3)
@@ -106,7 +106,7 @@ http://www.tonypa.pri.ee/tbw/tut25.html
 
     /********************************************************************
      Name: drawHex()
-     Parameters: (i,j) : the x,y coordinates of the inital point of the hexagon
+     Parameters: (i,j) : the x,y coordinates of the initial point of the hexagon
      g2: the Graphics2D object to draw on.
      Returns: void
      Calls: hex()

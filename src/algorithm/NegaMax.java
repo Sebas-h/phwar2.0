@@ -18,7 +18,7 @@ public class NegaMax extends Algorithm{
 
     @Override
     public ArrayList<Move> getAction(State s) {
-        Score result = negaMax(s, 2,
+        Score result = negaMax(s, 1,
                 Integer.MIN_VALUE + 1, Integer.MAX_VALUE,
                 super.playerColour, 1);
         System.out.println("[" + result.score + "]");

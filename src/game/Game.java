@@ -1,7 +1,10 @@
 package game;
 
 import algorithm.*;
+import gui.BoardPanel;
+import gui.BoardUI;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -96,8 +99,11 @@ public class Game {
     }
 
     public static void main (String args[]){
+        //BoardUI boardUI = new BoardUI();
+        //javax.swing.SwingUtilities.invokeLater(boardUI::createAndShowGUI);
+
         Game game = new Game(
-                new NegaMax(Colour.BLACK),
+                new Human(Colour.BLACK),
                 new RandomPlayer(Colour.WHITE)
         );
         game.createStartState();
