@@ -9,13 +9,16 @@ import java.util.ArrayList;
 
 public class MiniMax extends Algorithm {
 
-    public MiniMax(Colour colour) {
+    int depth;
+
+    public MiniMax(Colour colour, int depth) {
         super(colour);
+        this.depth = depth;
     }
 
     @Override
     public ArrayList<Move> getAction(State s) {
-        Score result = miniMax(s, 2,1);
+        Score result = miniMax(s, this.depth,1);
         System.out.println("[" + result.score + "]");
         return result.moves;
     }
@@ -36,6 +39,10 @@ public class MiniMax extends Algorithm {
         if(type == 1){
             score.score = Integer.MIN_VALUE;
             for (State child : getChildren(state, super.playerColour)) {
+                if (depth == this.depth && child.terminal){
+                    score.score = 1_000_000;
+                    score.moves = Evaluation.getFirstPlyMoves(child.priorMoves);
+                }
                 value = miniMax(child,depth-1, 0);
                 if (value.score > score.score) score = new Score(value);
             }
@@ -51,7 +58,7 @@ public class MiniMax extends Algorithm {
 
     public static void main(String[] args) {
         Game game = new Game(
-                new MiniMax(Colour.BLACK),
+                new MiniMax(Colour.BLACK, 2),
                 new RandomPlayer(Colour.WHITE)
         );
         game.createStartState();
