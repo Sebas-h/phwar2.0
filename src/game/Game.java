@@ -69,13 +69,13 @@ public class Game {
             // then you would have to calculate backwards; a state you can just apply straight up;
             //this.history.add(moves); // maybe keep it limited the last 10 moves
 
-            //long startTime = System.nanoTime();
+            long startTime = System.nanoTime();
 
             ArrayList<Move> moves = currentPlayer.getAction(this.gameState);
 
-            //long duration = (System.nanoTime() - startTime);
-            //System.out.println("turn " + this.turn + ": " + duration / 1000000 + " ms"); // milliseconds
-            //System.out.println(moves.get(0).particle.colour + ": " + printMoves(moves) + "\n");
+            long duration = (System.nanoTime() - startTime);
+            System.out.println("turn " + this.turn + ": " + duration / 1000000 + " ms"); // milliseconds
+            System.out.println(moves.get(0).particle.colour + ": " + printMoves(moves) + "\n");
 
             this.gameState.update(moves);
             this.gameState.checkTerminal(currentPlayer.playerColour);
@@ -89,7 +89,7 @@ public class Game {
         return currentPlayer.opponentColour;
     }
 
-    private String printMoves(List<Move> moves){
+    public static String printMoves(List<Move> moves){
         StringBuilder res = new StringBuilder();
         for (Move move : moves) {
             res.append(getCoordinateName(move.particle.coordinate))
@@ -100,36 +100,12 @@ public class Game {
         return res.toString();
     }
 
-
     public static void main (String args[]) throws FileNotFoundException{
-        PrintWriter pw = new PrintWriter(new File("test.csv"));
-        StringBuilder sb = new StringBuilder();
-        sb.append("sep=,\n");
-        sb.append("Winner,Time,Depth\n");
-        for (int i = 1; i < 4; i++) {
-            for (int j = 0; j < 100; j++) {
-
-                Game game = new Game(
-                        new MiniMax(Colour.BLACK, i),
-                        new RandomPlayer(Colour.WHITE)
-                );
-                game.createStartState();
-                long start = System.nanoTime();
-                sb.append(game.play().toString()).append(',');
-                //System.out.println("game time (in ms) = " + (System.nanoTime() - start) / 1_000_000);
-                sb.append((System.nanoTime() - start) / 1_000_000).append(',').append(Integer.toString(i)).append('\n');
-            }
-        }
-
-
-        //
-        //sb.append("1");
-        //sb.append(',');
-        //sb.append("Sebas");
-        //sb.append('\n');
-        //
-
-        pw.write(sb.toString());
-        pw.close();
+        Game game = new Game(
+                new MiniMax(Colour.BLACK, 2),
+                new RandomPlayer(Colour.WHITE)
+        );
+        game.createStartState();
+        game.play();
     }
 }

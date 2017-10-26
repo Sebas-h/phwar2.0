@@ -1,5 +1,9 @@
 package algorithm;
 
+import algorithm.evaluation.Evaluation;
+import algorithm.evaluation.IEvaluation;
+import algorithm.evaluation.MCEvaluation;
+import algorithm.evaluation.Score;
 import game.Colour;
 import game.Game;
 import game.Move;
@@ -24,32 +28,27 @@ public class NegaMax extends Algorithm{
         Score result = negaMax(s, this.depth,
                 Integer.MIN_VALUE + 1, Integer.MAX_VALUE,
                 super.playerColour, 1);
+
         //System.out.println("[" + result.score + "]");
+
         return result.moves;
     }
 
-    /**
-     * Negamax search with alpha beta pruning
-     * @param s state
-     * @param depth depth
-     * @param alpha alpha
-     * @param beta beta
-     * @return score
-     */
     private Score negaMax(State s, int depth, int alpha, int beta, Colour povColour, int color) {
         Score score = new Score();
         Score value;
         if (s.terminal || depth == 0) {
-            Evaluation evaluation = new Evaluation(s, super.playerColour);
-            Score eval =  evaluation.evaluate();
+            IEvaluation evaluation = new Evaluation();
+            Score eval =  evaluation.evaluate(s, super.playerColour);
+            System.out.println(eval.score);
             eval.score *= color;
+            System.out.println(eval.score + "\n");
             return eval;
         }
         
         // children = getChildren();
         // children = orderMoves(children, color);
         //      if color==1 sort descending (index 0 is highest score), else ascending (index 0 is lowest score)
-
 
         score.score = Integer.MIN_VALUE + 1;
         for (State state : getChildren(s, povColour)) {

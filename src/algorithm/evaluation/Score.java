@@ -1,4 +1,4 @@
-package algorithm;
+package algorithm.evaluation;
 
 import game.Move;
 
@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class Score {
 
-    int score;
-    ArrayList<Move> moves;
+    public int score;
+    public ArrayList<Move> moves;
 
     public Score(){
         this.moves = new ArrayList<>();

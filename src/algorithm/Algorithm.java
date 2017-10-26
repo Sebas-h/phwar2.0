@@ -18,7 +18,7 @@ public abstract class Algorithm {
 
     public abstract ArrayList<Move> getAction(State s);
 
-    public ArrayList<State> getChildren(State state, Colour povColour){
+    public static ArrayList<State> getChildren(State state, Colour povColour){
         ArrayList<State> children = new ArrayList<>();
         for (Particle particle : state.particles) {
             if(particle.colour == povColour) {
@@ -37,13 +37,13 @@ public abstract class Algorithm {
         return children;
     }
 
-    private void checkTerminal(ArrayList<State> states, Colour povColour) {
+    private static void checkTerminal(ArrayList<State> states, Colour povColour) {
         for (State state : states) {
             state.checkTerminal(povColour);
         }
     }
 
-    private ArrayList<State> applyCaptures(ArrayList<State> states, Colour povColour) {
+    private static ArrayList<State> applyCaptures(ArrayList<State> states, Colour povColour) {
         ArrayList<State> nChildren = new ArrayList<>();
         for (State state : states) {
             nChildren.addAll(captures(state, povColour));
@@ -51,7 +51,7 @@ public abstract class Algorithm {
         return nChildren;
     }
 
-    private ArrayList<State> captures(State state, Colour povColour) {
+    private static ArrayList<State> captures(State state, Colour povColour) {
         ArrayList<State> result = new ArrayList<>();
         ArrayList<Move> captureMoves = getCaptureMoves(state, povColour);
         if (captureMoves.isEmpty()) {result.add(state); return result;}
@@ -61,7 +61,7 @@ public abstract class Algorithm {
         return result;
     }
 
-    static ArrayList<Move> getCaptureMoves(State state , Colour povColour) {
+    public static ArrayList<Move> getCaptureMoves(State state , Colour povColour) {
         ArrayList<Move> moves = new ArrayList<>();
         for (Particle particle : state.particles) {
             if(particle.colour != povColour){
@@ -84,7 +84,7 @@ public abstract class Algorithm {
         return moves;
     }
 
-    static ArrayList<State> applyMoves(State state, ArrayList<Move> moves) {
+    public static ArrayList<State> applyMoves(State state, ArrayList<Move> moves) {
         ArrayList<State> resultingStates = new ArrayList<>();
         for (Move move : moves) {
             State nState = new State(state);

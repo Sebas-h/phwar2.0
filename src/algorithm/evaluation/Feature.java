@@ -1,4 +1,4 @@
-package algorithm;
+package algorithm.evaluation;
 
 public class Feature {
     private int value;

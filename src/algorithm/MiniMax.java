@@ -1,5 +1,8 @@
 package algorithm;
 
+import algorithm.evaluation.Evaluation;
+import algorithm.evaluation.IEvaluation;
+import algorithm.evaluation.Score;
 import game.Game;
 import game.Move;
 import game.Colour;
@@ -33,8 +36,8 @@ public class MiniMax extends Algorithm {
         Score score = new Score();
         Score value;
         if(state.terminal || depth == 0) {
-            Evaluation evaluation = new Evaluation(state, super.playerColour);
-            return evaluation.evaluate();
+            IEvaluation evaluation = new Evaluation();
+            return evaluation.evaluate(state, super.playerColour);
         }
         if(type == 1){
             score.score = Integer.MIN_VALUE;

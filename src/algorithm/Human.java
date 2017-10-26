@@ -16,7 +16,7 @@ import static game.Game.boardGridSize;
 
 public class Human extends Algorithm {
 
-    HashMap<Character,Integer> labelToNum;
+    private HashMap<Character,Integer> labelToNum;
 
     public Human(Colour colour) {
         super(colour);
@@ -66,11 +66,11 @@ public class Human extends Algorithm {
                 returnMoves = moves;
                 break;
             }
-        } 
+        }
         return returnMoves;
     }
 
-    String[] askMove(){
+    private String[] askMove(){
         System.out.println("Src: ");
         Scanner scanner = new Scanner(System.in);
         String src = scanner.nextLine().toUpperCase();
@@ -80,7 +80,7 @@ public class Human extends Algorithm {
         return new String[] {src,dest};
     }
 
-    int[] getCoordFromLabel(String label){
+    private int[] getCoordFromLabel(String label){
         int[] coord = new int[3];
         coord[0] = labelToNum.get(label.charAt(0));
 
