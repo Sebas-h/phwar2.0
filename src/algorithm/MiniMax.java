@@ -19,7 +19,7 @@ public class MiniMax extends Algorithm {
     @Override
     public ArrayList<Move> getAction(State s) {
         Score result = miniMax(s, this.depth,1);
-        System.out.println("[" + result.score + "]");
+        //System.out.println("[" + result.score + "]");
         return result.moves;
     }
 

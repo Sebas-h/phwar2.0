@@ -11,17 +11,20 @@ public class NegaMax extends Algorithm{
 
     private Colour currentPlayer;
 
-    public NegaMax(Colour colour) {
+    private int depth;
+
+    public NegaMax(Colour colour, int depth) {
         super(colour);
         this.currentPlayer = colour;
+        this.depth = depth;
     }
 
     @Override
     public ArrayList<Move> getAction(State s) {
-        Score result = negaMax(s, 2,
+        Score result = negaMax(s, this.depth,
                 Integer.MIN_VALUE + 1, Integer.MAX_VALUE,
                 super.playerColour, 1);
-        System.out.println("[" + result.score + "]");
+        //System.out.println("[" + result.score + "]");
         return result.moves;
     }
 
@@ -45,7 +48,8 @@ public class NegaMax extends Algorithm{
         
         // children = getChildren();
         // children = orderMoves(children, color);
-        //      if color==1 sort descending (index 0 is highest), else ascending (index 0 is lowest)
+        //      if color==1 sort descending (index 0 is highest score), else ascending (index 0 is lowest score)
+
 
         score.score = Integer.MIN_VALUE + 1;
         for (State state : getChildren(s, povColour)) {
@@ -53,7 +57,7 @@ public class NegaMax extends Algorithm{
             value.score *= -1;
             if(value.score > score.score) score = value;
             if(score.score > alpha) alpha = score.score;
-            if(score.score >= beta) break; // alpha beta pruning
+            if(score.score >= beta) break; // pruning
         }
         return score;
     }
@@ -65,7 +69,7 @@ public class NegaMax extends Algorithm{
 
     public static void main(String[] args) {
         Game game = new Game(
-                new NegaMax(Colour.BLACK),
+                new NegaMax(Colour.BLACK, 2),
                 new RandomPlayer(Colour.WHITE)
         );
         game.createStartState();

@@ -107,36 +107,4 @@ public abstract class Algorithm {
         return resultingStates;
     }
 
-    public static void main(String args[]){
-        ArrayList<Particle> particles = new ArrayList<>();
-        particles.add(new Particle(0 , Colour.BLACK, new int[] {0,5,-5 }));
-        particles.add(new Particle(-1, Colour.BLACK, new int[] {-1,1,0 }));
-        particles.add(new Particle(1 , Colour.BLACK, new int[] {-1,-2,3}));
-        particles.add(new Particle(0 , Colour.WHITE, new int[] {0,-5,5 }));
-        particles.add(new Particle(-1, Colour.WHITE, new int[] {-1,4,-3}));
-        particles.add(new Particle(-1, Colour.WHITE, new int[] {-4,1,3 }));
-        particles.add(new Particle(1 , Colour.WHITE, new int[] {4,-4,0 }));
-
-//        particles.add(new Particle(0 , Colour.BLACK, new int[] {0,5,-5 }));
-//        particles.add(new Particle(-1, Colour.BLACK, new int[] {-2,5,-3}));
-//        particles.add(new Particle(-1, Colour.BLACK, new int[] {0,4,-4 }));
-//        particles.add(new Particle(-1, Colour.BLACK, new int[] {0,3,-3 }));
-//        particles.add(new Particle(-1, Colour.BLACK, new int[] {2,3,-5 }));
-//        particles.add(new Particle(1 , Colour.BLACK, new int[] {-1,5,-4}));
-//        particles.add(new Particle(1 , Colour.BLACK, new int[] {-1,4,-3}));
-//        particles.add(new Particle(1 , Colour.BLACK, new int[] {1,4,-5 }));
-//        particles.add(new Particle(1 , Colour.BLACK, new int[] {1,3,-4 }));
-//
-//        for (int i = particles.size()-1; i > -1; i--) {
-//            particles.add(new Particle(particles.get(i).charge, Colour.WHITE, new int[] {
-//                    particles.get(i).coordinate[0] * -1, particles.get(i).coordinate[1] * -1, particles.get(i).coordinate[2] * -1}));
-//        }
-
-        State state = new State(particles, false);
-
-        Algorithm algo = new MiniMax(Colour.WHITE, 2);
-        ArrayList<State> children = algo.getChildren(state, algo.playerColour);
-
-        return;
-    }
 }
