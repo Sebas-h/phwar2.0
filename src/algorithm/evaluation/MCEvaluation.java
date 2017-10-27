@@ -14,7 +14,7 @@ import static algorithm.evaluation.Evaluation.getFirstPlyMoves;
 
 public class MCEvaluation implements IEvaluation {
 
-    private static final int NUMSAMPLES = 100;
+    private static int NUMSAMPLES = 100;
 
     @Override
     public Score evaluate(State state, Colour povColour) {
@@ -26,11 +26,16 @@ public class MCEvaluation implements IEvaluation {
         }
         score.score = statistic(scores);
 
-        String sb = String.valueOf(score.score) + "  move: " +
-                Game.printMoves(score.moves);
-        System.out.println(sb);
+        //String sb = String.valueOf(score.score) + "  move: " +
+        //        Game.printMoves(score.moves);
+        //System.out.println(sb);
 
         return score;
+    }
+
+    public Score nEvaluate(int numOfSamples, State s, Colour c){
+        NUMSAMPLES = numOfSamples;
+        return evaluate(s,c);
     }
 
     /**
@@ -57,16 +62,34 @@ public class MCEvaluation implements IEvaluation {
         do {
             colour = getOppositeColour(colour);
             ArrayList<State> children = Algorithm.getChildren(state, colour);
+
             // todo: add mc move ordering (strategy)
+            // choose randomChild();
+            // choose captureChild(); // or else random
+            // choose defensiveChild(); // always possible in some sense
             Random rand = new Random(System.nanoTime());
-            if (children.size() < 1){
-                System.out.println("not supposed to happen?");
-            }
             state = children.get(rand.nextInt(children.size()));
+
         } while (!state.terminal);
         if(colour == povColour) return 100;
         return -100;
     }
+
+    // Choose a random child;
+    private State randomChild(List<State> children){
+        return null;
+    }
+
+    // choose child with most captures (if no child has captures, choose random);
+    private State captureChild(List<State> children){
+        return null;
+    }
+
+    // choose child that is most defensive (cover of F6, avoid friendly particles from getting captures);
+    private State defensiveChild(List<State> children){
+        return null;
+    }
+
 
     private Colour getOppositeColour(Colour povColour) {
         if(povColour == Colour.BLACK) return Colour.WHITE;

@@ -2,14 +2,11 @@ package algorithm;
 
 import algorithm.evaluation.Evaluation;
 import algorithm.evaluation.IEvaluation;
-import algorithm.evaluation.MCEvaluation;
 import algorithm.evaluation.Score;
-import game.Colour;
-import game.Game;
-import game.Move;
-import game.State;
+import game.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class NegaMax extends Algorithm{
 
@@ -30,6 +27,10 @@ public class NegaMax extends Algorithm{
                 super.playerColour, 1);
 
         //System.out.println("[" + result.score + "]");
+        Experiment.leafNodesEachTurn.add(Experiment.leafNodes);
+        Experiment.nodesVisitedEachTurn.add(Experiment.nodesVisited);
+        Experiment.leafNodes = 0;
+        Experiment.nodesVisited = 0;
 
         return result.moves;
     }
@@ -38,20 +39,24 @@ public class NegaMax extends Algorithm{
         Score score = new Score();
         Score value;
         if (s.terminal || depth == 0) {
+            Experiment.leafNodes++;
             IEvaluation evaluation = new Evaluation();
             Score eval =  evaluation.evaluate(s, super.playerColour);
-            System.out.println(eval.score);
             eval.score *= color;
-            System.out.println(eval.score + "\n");
             return eval;
         }
         
         // children = getChildren();
-        // children = orderMoves(children, color);
+        // children = orderStates(children, color);
         //      if color==1 sort descending (index 0 is highest score), else ascending (index 0 is lowest score)
 
+        // Move ordering on children:
+        ArrayList<State> children = getChildren(s, povColour);
+        //children = orderStates(children);
+
         score.score = Integer.MIN_VALUE + 1;
-        for (State state : getChildren(s, povColour)) {
+        for (State state : children) {
+            Experiment.nodesVisited++;
             value = negaMax(state, depth-1, -alpha, -beta, getOppositeColour(povColour), -color);
             value.score *= -1;
             if(value.score > score.score) score = value;
@@ -66,9 +71,28 @@ public class NegaMax extends Algorithm{
         return Colour.BLACK;
     }
 
+    private ArrayList<State> orderStates(ArrayList<State> children){
+        // Order based on capture moves
+        // Node/state/move with most captures will be investigated first
+        // If no move with captures, just leave the order as is.
+        // this ordering should have a correlation with the eval method,
+        // because we want there to be a cut off earlier (less nodes to be explored)
+
+        // Insertion sort to order moves:
+        for (int i = 1; i < children.size(); i++) {
+            for (int j = i; j > 0 && children.get(j-1).priorMoves.size() > children.get(j).priorMoves.size(); j--) {
+                // swap j with j-1:
+                Collections.swap(children,j,j-1);
+            }
+        }
+
+
+        return children;
+    }
+
     public static void main(String[] args) {
         Game game = new Game(
-                new NegaMax(Colour.BLACK, 2),
+                new NegaMax(Colour.BLACK, 3),
                 new RandomPlayer(Colour.WHITE)
         );
         game.createStartState();

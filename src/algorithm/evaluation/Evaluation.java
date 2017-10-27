@@ -49,12 +49,13 @@ public class Evaluation implements IEvaluation {
 
     public static ArrayList<Move> getFirstPlyMoves(List<Move> moves){
         ArrayList<Move> result = new ArrayList<>();
-        Colour povColour = moves.get(0).particle.colour;
-        for (Move move : moves) {
-            if (move.particle.colour == povColour){
-                result.add(new Move(move));
+        if (!moves.isEmpty()) {
+            Colour povColour = moves.get(0).particle.colour;
+            for (Move move : moves) {
+                if (move.particle.colour == povColour) {
+                    result.add(new Move(move));
+                } else break;
             }
-            else break;
         }
         return result;
     }

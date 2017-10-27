@@ -61,7 +61,7 @@ public class MiniMax extends Algorithm {
 
     public static void main(String[] args) {
         Game game = new Game(
-                new MiniMax(Colour.BLACK, 2),
+                new MiniMax(Colour.BLACK, 3),
                 new RandomPlayer(Colour.WHITE)
         );
         game.createStartState();
