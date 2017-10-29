@@ -60,7 +60,7 @@ public class AlgorithmUtil {
             for (Particle particle : nState.particles) {
                 if(Arrays.equals(particle.coordinate, move.particle.coordinate)){
                     if (move.capture){
-                        for (int i = 0; i < nState.particles.size(); i++) {  // todo: fix to many loops!
+                        for (int i = 0; i < nState.particles.size(); i++) {
                             if (Arrays.equals(nState.particles.get(i).coordinate , move.destination)) indexToRemove = i;
                         }
                     }
