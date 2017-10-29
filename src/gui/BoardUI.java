@@ -12,9 +12,10 @@ import static gui.BoardPanel.createHex;
 
 public class BoardUI extends JFrame{
 
-    //public static void main(String[] args) {
-    //    SwingUtilities.invokeLater(BoardUI::createAndShowGUI);
-    //}
+    public static void main(String[] args) {
+        BoardUI boardUI = new BoardUI();
+        boardUI.createAndShowGUI();
+    }
 
     public void createAndShowGUI() {
         //JFrame frame = new JFrame();
@@ -28,13 +29,4 @@ public class BoardUI extends JFrame{
         setVisible(true);
     }
 
-    public void drawSign(State s){
-        Graphics g = getGraphics();
-        g.drawOval(40, 40, 60, 60);
-        //g.drawPolygon(createHex(XORIGIN, YORIGIN));
-        //g.setColor(Color.cyan);
-        //g.fillPolygon(createHex(XORIGIN, YORIGIN));
-        //g.setColor(Color.red);
-        //g.drawPolygon(createHex(XORIGIN, YORIGIN));
-    }
 }

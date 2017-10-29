@@ -61,8 +61,8 @@ public class Human extends Algorithm {
             moves.add(new Move(particle, dest, false));
 
             // check captures:
-            ArrayList<State> nStates = applyMoves(s, moves);
-            if (getCaptureMoves(nStates.get(0), super.playerColour).size() == 0) {
+            ArrayList<State> nStates = AlgorithmUtil.applyMoves(s, moves);
+            if (AlgorithmUtil.getCaptureMoves(nStates.get(0), super.playerColour).size() == 0) {
                 returnMoves = moves;
                 break;
             }

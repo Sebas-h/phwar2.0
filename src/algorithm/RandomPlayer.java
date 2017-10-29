@@ -14,9 +14,8 @@ public class RandomPlayer extends Algorithm {
 
     @Override
     public ArrayList<Move> getAction(State s) {
-        ArrayList<State> children = getChildren(s, super.playerColour);
-        // seed guarantees different pseudo random sequence for every Random instance:
-        Random rand = new Random(System.nanoTime());
+        ArrayList<State> children = AlgorithmUtil.getChildren(s, super.playerColour);
+        Random rand = new Random(); // gives different seed every time it's called (using System.nanoTime())
         return children.get(rand.nextInt(children.size())).priorMoves;
     }
 }

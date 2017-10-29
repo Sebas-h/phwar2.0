@@ -14,10 +14,12 @@ import java.util.ArrayList;
 public class DepthOneSearch extends Algorithm {
 
     private Colour currentPlayer;
+    private int numSamplesMCEval;
 
-    public DepthOneSearch(Colour colour) {
+    public DepthOneSearch(Colour colour, int numSamplesMCEval) {
         super(colour);
         this.currentPlayer = colour;
+        this.numSamplesMCEval = numSamplesMCEval;
     }
 
     @Override
@@ -31,32 +33,27 @@ public class DepthOneSearch extends Algorithm {
         Score score = new Score();
         Score value;
         if (s.terminal || depth == 0) {
-            IEvaluation evaluation = new MCEvaluation();
+            MCEvaluation evaluation = new MCEvaluation();
             //Score eval =  evaluation.evaluate(s, super.playerColour);
-            return evaluation.evaluate(s, super.playerColour);
+            return evaluation.nEvaluate( this.numSamplesMCEval, s, super.playerColour);
         }
 
         score.score = Integer.MIN_VALUE + 1;
-        for (State state : getChildren(s, povColour)) {
+        for (State state : AlgorithmUtil.getChildren(s, povColour)) {
             if (state.terminal){
                 score.score = 1_000_000;
                 score.moves = Evaluation.getFirstPlyMoves(state.priorMoves);
                 return score;
             }
-            value = depthOneSearchMCEval(state, getOppositeColour(povColour), 0);
+            value = depthOneSearchMCEval(state, AlgorithmUtil.getOppositeColour(povColour), 0);
             if (value.score > score.score) score = new Score(value);
         }
         return score;
     }
 
-    private Colour getOppositeColour(Colour povColour) {
-        if(povColour == Colour.BLACK) return Colour.WHITE;
-        return Colour.BLACK;
-    }
-
     public static void main(String[] args) {
         Game game = new Game(
-                new DepthOneSearch(Colour.BLACK),
+                new DepthOneSearch(Colour.BLACK,10),
                 new RandomPlayer(Colour.WHITE)
         );
         game.createStartState();

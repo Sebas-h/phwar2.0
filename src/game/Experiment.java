@@ -1,14 +1,12 @@
 package game;
 
-import algorithm.Algorithm;
-import algorithm.MiniMax;
-import algorithm.NegaMax;
-import algorithm.RandomPlayer;
+import algorithm.*;
 import algorithm.evaluation.Evaluation;
 import algorithm.evaluation.IEvaluation;
 import algorithm.evaluation.MCEvaluation;
 import algorithm.evaluation.Score;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -32,7 +30,44 @@ public class Experiment {
         //algorithmNodesVisited();
 
         // mc eval on start state, how big n (number of samples before converged)
-        numOfSamplesMCEval();
+        //for (int i = 0; i < 5; i++) {
+        //    numOfSamplesMCEval();
+        //}
+
+        // mc eval depht one search
+        depthOneSearch();
+    }
+
+    private static void depthOneSearch() throws FileNotFoundException{
+        PrintWriter pw = getCSVFile();
+
+        int numOfSamples = 100;
+
+        experimentSb.append("sep=,\n")
+                .append("one depth search with num samples =").append(numOfSamples).append('\n')
+                .append("Winner,Time\n");
+        pw.write(experimentSb.toString());
+        experimentSb.delete(0,experimentSb.length());
+
+
+        for (int i = 0; i < 3; i++) {
+            Game game = new Game(
+                    new DepthOneSearch(Colour.BLACK, numOfSamples),
+                    new RandomPlayer(Colour.WHITE)
+            );
+            game.createStartState();
+            long start = System.nanoTime();
+            Colour winner = game.play();
+            long diff = (System.nanoTime() - start) / 1_000_000;
+
+            experimentSb.append(winner)
+                    .append(',')
+                    .append(diff)
+                    .append('\n');
+
+        }
+        pw.write(experimentSb.toString());
+        pw.close();
     }
 
     private static void numOfSamplesMCEval() throws FileNotFoundException {
@@ -41,7 +76,7 @@ public class Experiment {
         int numOfIterations = 1;
 
         experimentSb.append("sep=,\n")
-                .append("mc eval num of samples start state\n")
+                .append("mc eval (random moves) num of samples start state\n")
                 .append("num of samples, move, avg score (iters:")
                 .append(numOfIterations)
                 .append("),avg time per iter(ms)\n");
@@ -51,11 +86,11 @@ public class Experiment {
         MCEvaluation evaluation = new MCEvaluation();
 
         State startState = createStartState();
-        ArrayList<State> childrenOfSS = Algorithm.getChildren(startState, Colour.BLACK);
+        ArrayList<State> childrenOfSS = AlgorithmUtil.getChildren(startState, Colour.BLACK);
 
         ArrayList<Integer> listOfScores = new ArrayList<>();
 
-        int numSamples = 100;
+        int numSamples = 10_000;
 
         for (State child : childrenOfSS) {
             int sum = 0;

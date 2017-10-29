@@ -9,7 +9,7 @@ public class Feature {
         this.weight = weight;
     }
 
-    public int getValue() {
+    int getValue() {
         return value;
     }
 
@@ -17,7 +17,7 @@ public class Feature {
         this.value = value;
     }
 
-    public int getWeight() {
+    int getWeight() {
         return weight;
     }
 

@@ -45,19 +45,15 @@ public class NegaMax extends Algorithm{
             eval.score *= color;
             return eval;
         }
-        
-        // children = getChildren();
-        // children = orderStates(children, color);
-        //      if color==1 sort descending (index 0 is highest score), else ascending (index 0 is lowest score)
 
         // Move ordering on children:
-        ArrayList<State> children = getChildren(s, povColour);
-        //children = orderStates(children);
+        ArrayList<State> children = AlgorithmUtil.getChildren(s, povColour);
+        children = orderStates(children);
 
         score.score = Integer.MIN_VALUE + 1;
         for (State state : children) {
             Experiment.nodesVisited++;
-            value = negaMax(state, depth-1, -alpha, -beta, getOppositeColour(povColour), -color);
+            value = negaMax(state, depth-1, -alpha, -beta, AlgorithmUtil.getOppositeColour(povColour), -color);
             value.score *= -1;
             if(value.score > score.score) score = value;
             if(score.score > alpha) alpha = score.score;
@@ -66,17 +62,9 @@ public class NegaMax extends Algorithm{
         return score;
     }
 
-    private Colour getOppositeColour(Colour povColour) {
-        if(povColour == Colour.BLACK) return Colour.WHITE;
-        return Colour.BLACK;
-    }
-
     private ArrayList<State> orderStates(ArrayList<State> children){
         // Order based on capture moves
         // Node/state/move with most captures will be investigated first
-        // If no move with captures, just leave the order as is.
-        // this ordering should have a correlation with the eval method,
-        // because we want there to be a cut off earlier (less nodes to be explored)
 
         // Insertion sort to order moves:
         for (int i = 1; i < children.size(); i++) {

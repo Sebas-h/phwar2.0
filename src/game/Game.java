@@ -21,9 +21,6 @@ public class Game {
     private ArrayList<ArrayList<Move>> history = new ArrayList<>();
 
     public Game(Algorithm playerBlack, Algorithm playerWhite){
-        // CSV writer for test results:
-        //PrintWriter pw = new PrintWriter(new File("test.csv"));
-
         createStartState();
         this.black = playerBlack;
         this.white = playerWhite;
@@ -69,13 +66,13 @@ public class Game {
             // then you would have to calculate backwards; a state you can just apply straight up;
             //this.history.add(moves); // maybe keep it limited the last 10 moves
 
-            //long startTime = System.nanoTime();
+            long startTime = System.nanoTime();
 
             ArrayList<Move> moves = currentPlayer.getAction(this.gameState);
 
-            //long duration = (System.nanoTime() - startTime);
-            //System.out.println("turn " + this.turn + ": " + duration / 1000000 + " ms"); // milliseconds
-            //System.out.println(moves.get(0).particle.colour + ": " + printMoves(moves) + "\n");
+            long duration = (System.nanoTime() - startTime);
+            System.out.println("turn " + this.turn + ": " + duration / 1000000 + " ms"); // milliseconds
+            System.out.println(moves.get(0).particle.colour + ": " + printMoves(moves) + "\n");
 
             this.gameState.update(moves);
             this.gameState.checkTerminal(currentPlayer.playerColour);
@@ -89,7 +86,7 @@ public class Game {
         return currentPlayer.opponentColour;
     }
 
-    public static String printMoves(List<Move> moves){
+    static String printMoves(List<Move> moves){
         StringBuilder res = new StringBuilder();
         for (Move move : moves) {
             res.append(getCoordinateName(move.particle.coordinate))

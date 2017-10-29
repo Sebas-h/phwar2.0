@@ -1,6 +1,7 @@
 package algorithm.evaluation;
 
 import algorithm.Algorithm;
+import algorithm.AlgorithmUtil;
 import game.Colour;
 import game.Game;
 import game.Move;
@@ -25,11 +26,6 @@ public class MCEvaluation implements IEvaluation {
             scores.add(play_and_score_random_game(state, povColour));
         }
         score.score = statistic(scores);
-
-        //String sb = String.valueOf(score.score) + "  move: " +
-        //        Game.printMoves(score.moves);
-        //System.out.println(sb);
-
         return score;
     }
 
@@ -60,14 +56,14 @@ public class MCEvaluation implements IEvaluation {
     private Integer play_and_score_random_game(State state, Colour povColour) {
         Colour colour = povColour;
         do {
-            colour = getOppositeColour(colour);
-            ArrayList<State> children = Algorithm.getChildren(state, colour);
+            colour = AlgorithmUtil.getOppositeColour(colour);
+            ArrayList<State> children = AlgorithmUtil.getChildren(state, colour);
 
             // todo: add mc move ordering (strategy)
             // choose randomChild();
             // choose captureChild(); // or else random
             // choose defensiveChild(); // always possible in some sense
-            Random rand = new Random(System.nanoTime());
+            Random rand = new Random();
             state = children.get(rand.nextInt(children.size()));
 
         } while (!state.terminal);
@@ -85,14 +81,9 @@ public class MCEvaluation implements IEvaluation {
         return null;
     }
 
-    // choose child that is most defensive (cover of F6, avoid friendly particles from getting captures);
+    // choose child that is most defensive (cover of F6; avoid friendly particles from getting captures);
     private State defensiveChild(List<State> children){
         return null;
     }
 
-
-    private Colour getOppositeColour(Colour povColour) {
-        if(povColour == Colour.BLACK) return Colour.WHITE;
-        return Colour.BLACK;
-    }
 }

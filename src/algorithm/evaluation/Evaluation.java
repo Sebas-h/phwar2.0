@@ -1,6 +1,7 @@
 package algorithm.evaluation;
 
 import algorithm.Algorithm;
+import algorithm.AlgorithmUtil;
 import game.Colour;
 import game.Move;
 import game.Particle;
@@ -12,9 +13,6 @@ public class Evaluation implements IEvaluation {
 
     private State state;
     private Colour povColour;
-
-    public Evaluation(){
-    }
 
     @Override
     public Score evaluate(State state, Colour povColour){
@@ -64,8 +62,8 @@ public class Evaluation implements IEvaluation {
         int numCapMoves = 0;
         for (Particle p : this.state.particles) {
             if (p.colour == this.povColour){
-                for (State s : Algorithm.applyMoves(this.state, this.state.getPossibleMovesParticle(p))) {
-                    numCapMoves += Algorithm.getCaptureMoves(s, this.povColour).size();
+                for (State s : AlgorithmUtil.applyMoves(this.state, this.state.getPossibleMovesParticle(p))) {
+                    numCapMoves += AlgorithmUtil.getCaptureMoves(s, this.povColour).size();
                 }
             }
         }
@@ -78,8 +76,8 @@ public class Evaluation implements IEvaluation {
         Colour opponentColour;
         if (this.povColour == Colour.BLACK) opponentColour = Colour.WHITE;
         else opponentColour = Colour.BLACK;
-        numCapMovesProponent = Algorithm.getCaptureMoves(this.state, this.povColour).size();
-        numCapMovesOpponent = Algorithm.getCaptureMoves(this.state, opponentColour).size();
+        numCapMovesProponent = AlgorithmUtil.getCaptureMoves(this.state, this.povColour).size();
+        numCapMovesOpponent = AlgorithmUtil.getCaptureMoves(this.state, opponentColour).size();
         return numCapMovesProponent - numCapMovesOpponent;
     }
 
